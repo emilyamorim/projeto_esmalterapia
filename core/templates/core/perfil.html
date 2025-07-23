@@ -1,0 +1,18 @@
+<h2>Meu Perfil</h2>
+<p>Olá, {{ user.first_name }}!</p>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar Alterações</button>
+</form>
+
+<hr>
+
+<form action="{% url 'logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="link-button">Sair da Conta</button>
+</form>
+
+<p>Deseja excluir sua conta? Esta ação é irreversível.</p>
+<a href="{% url 'deletar_conta' %}" style="color: red;">Excluir minha conta</a>

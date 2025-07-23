@@ -1,0 +1,14 @@
+<h2>Meus Endereços</h2>
+<a href="{% url 'adicionar_endereco' %}">Adicionar Novo Endereço</a>
+
+<ul>
+    {% for endereco in enderecos %}
+        <li>
+            {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.cidade }} / {{ endereco.estado }}
+            <a href="{% url 'editar_endereco' endereco.pk %}">(Editar)</a>
+            <a href="{% url 'deletar_endereco' endereco.pk %}">(Excluir)</a>
+        </li>
+    {% empty %}
+        <li>Você ainda não cadastrou nenhum endereço.</li>
+    {% endfor %}
+</ul>

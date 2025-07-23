@@ -1,0 +1,48 @@
+<!-- {% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="produtos-destaque">
+    <h2>PRODUTOS EM DESTAQUE</h2>
+    <div class="grid-produtos">
+        {% for produto in produtos %}
+            <div class="card-produto">
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                <h3>{{ produto.nome }}</h3>
+                <p>{{ produto.marca }}</p>
+                <span>R$ {{ produto.preco }}</span>
+                <button>Adicionar ao Carrinho</button>
+            </div>
+        {% empty %}
+            <p>Nenhum produto em destaque no momento.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %} -->
+
+
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="text-align: center; padding: 2rem;">
+    <h1>Bem-vinda à Unhas Perfeitas!</h1>
+    <p>Os melhores esmaltes para você.</p>
+</div>
+<section class="produtos-destaque">
+    <h2 style="text-align: center;">Produtos em Destaque</h2>
+    <div class="grid-produtos">
+        {% for produto in produtos %}
+            <div class="card-produto">
+                {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                {% endif %}
+                <h3>{{ produto.nome }}</h3>
+                <p>{{ produto.marca }}</p>
+                <span>R$ {{ produto.preco }}</span>
+            </div>
+        {% empty %}
+            <p>Nenhum produto cadastrado ainda.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

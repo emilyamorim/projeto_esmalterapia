@@ -1,0 +1,7 @@
+<h2>{{ titulo }}</h2> {# O título será 'Adicionar' ou 'Editar' #}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+    <a href="{% url 'gerenciar_enderecos' %}">Cancelar</a>
+</form>

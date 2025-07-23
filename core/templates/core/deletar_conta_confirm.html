@@ -1,0 +1,8 @@
+<h2>Confirmar Exclusão de Conta</h2>
+<p>Você tem certeza que deseja excluir sua conta? Todos os seus dados serão perdidos para sempre.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'perfil' %}">Cancelar</a>
+    <button type="submit" style="background-color: red; color: white;">Sim, quero excluir minha conta</button>
+</form>

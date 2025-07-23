@@ -1,0 +1,80 @@
+<!-- {% load static %} <!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF--8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unhas Perfeitas</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="{% static 'core/img/logo.png' %}" alt="Logo Unhas Perfeitas">
+            </nav>
+    </header>
+
+    <div class="user-actions">
+        {% if user.is_authenticated %}
+            <span>Olá, {{ user.first_name }}!</span>
+            <a href="{% url 'perfil' %}">Minha Conta</a>
+            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Sair</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'registro' %}">Cadastrar</a>
+        {% endif %}
+        </div>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        </footer>
+</body>
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Unhas Perfeitas</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header style="padding: 1rem; background-color: #f8f8f8; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'img/logo.png' %}" alt="Logo Unhas Perfeitas" style="height: 40px;">
+        </a>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'perfil' %}">Olá, {{ user.first_name }}</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'registro' %}">Cadastrar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 2rem; margin-top: 2rem; background-color: #f8f8f8;">
+        <p>&copy; {% now "Y" %} Unhas Perfeitas. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

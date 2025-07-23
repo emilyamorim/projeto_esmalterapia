@@ -1,0 +1,8 @@
+<h2>Confirmar Exclusão</h2>
+<p>Você tem certeza que deseja excluir o endereço "{{ endereco }}"?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <a href="{% url 'gerenciar_enderecos' %}">Cancelar</a>
+    <button type="submit">Sim, excluir</button>
+</form>
