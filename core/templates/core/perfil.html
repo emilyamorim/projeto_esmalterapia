@@ -1,11 +1,19 @@
 <h2>Meu Perfil</h2>
 <p>Olá, {{ user.first_name }}!</p>
 
+<div class="profile-nav" style="margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+    <a href="{% url 'perfil' %}" style="margin-right: 1rem;">Dados Pessoais</a>
+    <a href="{% url 'meus_pedidos' %}" style="margin-right: 1rem;">Meus Pedidos</a>
+    <a href="{% url 'gerenciar_enderecos' %}">Meus Endereços</a>
+</div>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Salvar Alterações</button>
 </form>
+
+<a href="{% url 'home' %}" style="display: block; margin-top: 2rem; text-align: center;">Voltar para a loja</a>
 
 <hr>
 

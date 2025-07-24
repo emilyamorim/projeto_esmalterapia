@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Usuario, Produto, EnderecoUsuario
+from .models import Usuario, Produto, EnderecoUsuario, Pedido, ItemPedido
 
 # --- Customização para o admin do seu Usuário ---
 # Isso faz com que seus campos extras (cpf, telefone) apareçam no admin
@@ -25,3 +25,5 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(Usuario, CustomUserAdmin)
 admin.site.register(Produto)
 admin.site.register(EnderecoUsuario)
+admin.site.register(Pedido)
+admin.site.register(ItemPedido)

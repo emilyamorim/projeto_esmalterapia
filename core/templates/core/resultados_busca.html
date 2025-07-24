@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-busca" style="max-width: 1200px; margin: 2rem auto; padding: 1rem;">
+
+    <h1 style="text-align: center; margin-bottom: 2rem;">
+        Resultados para: "<em>{{ query }}</em>"
+    </h1>
+
+    {% if resultados %}
+        <p>{{ resultados|length }} produto(s) encontrado(s).</p>
+
+        <div class="grid-produtos" style="margin-top: 2rem;">
+            {% for produto in resultados %}
+                <div class="card-produto">
+                    <a href="{% url 'produto_detalhe' produto.id %}">
+                        {% if produto.imagem %}
+                            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        {% endif %}
+                        <h3>{{ produto.nome }}</h3>
+                    </a>
+                    <p>{{ produto.marca }}</p>
+                    <span>R$ {{ produto.preco }}</span>
+
+                    <form action="{% url 'adicionar_ao_carrinho' produto.id %}" method="post" style="margin-top: 1rem;">
+                        {% csrf_token %}
+                        <button type="submit">Adicionar ao Carrinho</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align: center; margin-top: 3rem;">Nenhum produto encontrado para sua busca.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

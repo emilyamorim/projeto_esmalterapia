@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -131,13 +132,14 @@ AUTH_USER_MODEL = 'core.Usuario'
 
 # 2. Configuração de arquivos estáticos (CSS, JS, imagens do design)
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # 3. Configuração de arquivos de mídia (imagens dos produtos upadas pelo admin)
 MEDIA_URL = '/media/'
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 4. URLs de redirecionamento para login/logout
-LOGIN_REDIRECT_URL = '/perfil/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/login/' # Para onde o @login_required redireciona
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,46 +1,72 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+# ==============================================================================
+# IMPORTAÇÕES
+# ==============================================================================
+from django.urls import path
+from django.contrib.auth import views as auth_views # Views de autenticação prontas do Django
+from . import views # Nossas views customizadas
 
-class Usuario(AbstractUser):
-    cpf = models.CharField(max_length=11, unique=True, verbose_name='CPF')
-    telefone = models.CharField(max_length=15, blank=True, null=True)
-    email = models.EmailField(unique=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+# ==============================================================================
+# DEFINIÇÃO DAS ROTAS (URL PATTERNS)
+# ==============================================================================
+# Cada 'path' define uma rota, a view que a controla e um nome único para referência.
 
-    def __str__(self):
-        return self.email
+urlpatterns = [
+    
+    # --- Páginas Gerais e Catálogo ---
+    path('', views.home_view, name='home'),
+    path('produto/<int:produto_id>/', views.produto_detalhe, name='produto_detalhe'),
+    path('busca/', views.busca, name='busca'),
 
-class EnderecoUsuario(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='enderecos')
-    logradouro = models.CharField(max_length=100)
-    numero = models.CharField(max_length=45)
-    complemento = models.CharField(max_length=200, blank=True, null=True)
-    cidade = models.CharField(max_length=100)
-    estado = models.CharField(max_length=100)
-    cep = models.CharField(max_length=8)
 
-    def __str__(self):
-        return f"{self.logradouro}, {self.numero} - {self.cidade}"
+    # --- Autenticação e Cadastro de Usuário ---
+    path('registro/', views.SignUpView.as_view(), name='registro'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
+    # A URL de redirecionamento do logout é controlada por LOGOUT_REDIRECT_URL em settings.py
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
-# class Produto(models.Model):
-#     idProduto = models.AutoField(primary_key=True)
-#     nome = models.CharField(max_length=45)
-#     descricao = models.CharField(max_length=200)
-#     preco = models.DecimalField(max_digits=10, decimal_places=2)
-#     marca = models.CharField(max_length=45)
-#     categoria = models.CharField(max_length=45)
 
-#     def __str__(self):
-#         return self.nome
+    # --- Recuperação de Senha ---
+    path('password_reset/', auth_views.PasswordResetView.as_view(
+        template_name='core/registration/password_reset_form.html'), 
+        name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
+        template_name='core/registration/password_reset_done.html'),
+        name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name='core/registration/password_reset_confirm.html'),
+        name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='core/registration/password_reset_complete.html'),
+        name='password_reset_complete'),
 
-class Produto(models.Model):
-    nome = models.CharField(max_length=100)
-    descricao = models.TextField()
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
-    marca = models.CharField(max_length=50)
-    imagem = models.ImageField(upload_to='produtos/', blank=True, null=True)
 
-    def __str__(self):
-        return self.nome
+    # --- Perfil e Gestão da Conta do Usuário ---
+    path('perfil/', views.perfil_view, name='perfil'),
+    path('perfil/deletar/', views.deletar_conta_view, name='deletar_conta'),
+    path('meus-pedidos/', views.meus_pedidos, name='meus_pedidos'),
+    path('favoritos/', views.ver_favoritos, name='ver_favoritos'),
+    path('favoritos/toggle/<int:produto_id>/', views.toggle_favorito, name='toggle_favorito'),
+
+    
+    # --- CRUD de Endereços do Usuário ---
+    path('meus-enderecos/', views.gerenciar_enderecos, name='gerenciar_enderecos'),
+    path('meus-enderecos/adicionar/', views.adicionar_endereco, name='adicionar_endereco'),
+    path('meus-enderecos/editar/<int:endereco_id>/', views.editar_endereco, name='editar_endereco'),
+    path('meus-enderecos/deletar/<int:endereco_id>/', views.deletar_endereco, name='deletar_endereco'),
+
+
+    # --- Carrinho de Compras ---
+    path('carrinho/', views.ver_carrinho, name='ver_carrinho'),
+    path('carrinho/adicionar/<int:produto_id>/', views.adicionar_ao_carrinho, name='adicionar_ao_carrinho'),
+    path('carrinho/remover/<int:produto_id>/', views.remover_do_carrinho, name='remover_do_carrinho'),
+    path('carrinho/atualizar/', views.atualizar_carrinho, name='atualizar_carrinho'),
+
+
+    # --- Processo de Checkout ---
+    path('comprar-agora/<int:produto_id>/', views.comprar_agora, name='comprar_agora'),
+    path('checkout/', views.checkout_page, name='checkout_page'),
+    path('checkout/fechar-pedido/', views.fechar_pedido, name='fechar_pedido'),
+    path('pedido/confirmado/<int:pedido_id>/', views.pedido_confirmado, name='pedido_confirmado'),
+
+]

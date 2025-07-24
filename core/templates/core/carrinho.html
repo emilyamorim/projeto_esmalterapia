@@ -1,0 +1,68 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-carrinho" style="max-width: 960px; margin: 2rem auto; padding: 1rem;">
+    <h1 style="text-align: center; margin-bottom: 2rem;">Seu Carrinho</h1>
+
+    <div style="display: flex; gap: 2rem;">
+        <div class="itens-lista" style="flex: 2;">
+            {% for item in carrinho_items %}
+                <div class="item-carrinho" style="display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+        
+                    <div class="item-detalhes" style="flex-grow: 1;">
+                        <h3>{{ item.produto.nome }}</h3>
+                        <p>Vendido por: {{ item.produto.marca }}</p>
+        
+                        <div class="controles-quantidade" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                            <form action="{% url 'atualizar_carrinho' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
+                                <input type="hidden" name="action" value="decrease">
+                                <button type="submit" style="padding: 0.2rem 0.5rem;">-</button>
+                            </form>
+        
+                            <span>{{ item.quantidade }}</span>
+        
+                            <form action="{% url 'atualizar_carrinho' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
+                                <input type="hidden" name="action" value="increase">
+                                <button type="submit" style="padding: 0.2rem 0.5rem;">+</button>
+                            </form>
+                        </div>
+                        </div>
+        
+                    <div class="item-preco" style="text-align: right;">
+                        <p style="font-size: 1.2rem; font-weight: bold; margin: 0;">R$ {{ item.total_item|floatformat:2 }}</p>
+        
+                        <form action="{% url 'remover_do_carrinho' item.produto.id %}" method="post" style="margin-top: 0.5rem;">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; color: red; cursor: pointer; text-decoration: underline;">Remover</button>
+                        </form>
+                        </div>
+                </div>
+            {% empty %}
+                <p>Seu carrinho está vazio.</p>
+            {% endfor %}
+        </div>
+
+        <div class="resumo-pedido" style="flex: 1; background-color: #f8f8f8; padding: 1.5rem; border-radius: 8px;">
+            <h2>Produtos</h2>
+            <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
+                <span>Subtotal</span>
+                <span>R$ {{ subtotal|floatformat:2 }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                <span>Frete</span>
+                <span>GRÁTIS</span>
+            </div>
+            <hr style="margin: 1rem 0;">
+            <a href="{% url 'checkout_page' %}" style="text-decoration: none; display: block; width: 100%; padding: 1rem; background-color: #5a3e5a; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; text-align: center;">
+                Fechar Pedido
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

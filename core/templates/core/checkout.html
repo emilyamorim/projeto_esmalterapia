@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container-checkout" style="max-width: 960px; margin: 2rem auto; padding: 1rem;">
+
+    <h1 style="text-align: center; margin-bottom: 2rem;">Finalizar Compra</h1>
+
+    <form action="{% url 'fechar_pedido' %}" method="post">
+        {% csrf_token %}
+        <div style="display: flex; gap: 2rem;">
+
+            <div style="flex: 2;">
+                <h3>Selecione o Endereço de Entrega</h3>
+                {% for endereco in enderecos %}
+                    <div style="border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+                        <input type="radio" name="endereco_id" value="{{ endereco.id }}" id="endereco-{{ endereco.id }}" required>
+                        <label for="endereco-{{ endereco.id }}">
+                            <strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong><br>
+                            {{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.estado }}<br>
+                            CEP: {{ endereco.cep }}
+                        </label>
+                    </div>
+                {% empty %}
+                    <p>Você não tem endereços cadastrados. <a href="{% url 'adicionar_endereco' %}">Adicionar um endereço</a></p>
+                {% endfor %}
+
+                <h3 style="margin-top: 2rem;">Forma de Pagamento (Simulação)</h3>
+                <div style="border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
+                    <input type="radio" name="pagamento" id="cartao" checked> <label for="cartao">Cartão de Crédito</label><br>
+                    <input type="radio" name="pagamento" id="pix"> <label for="pix">Pix</label>
+                </div>
+            </div>
+
+            <div class="resumo-pedido" style="flex: 1; background-color: #f8f8f8; padding: 1.5rem; border-radius: 8px;">
+                <h2>Resumo</h2>
+                {% for item in carrinho_items %}
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                        <span>{{ item.quantidade }}x {{ item.produto.nome }}</span>
+                        <span>R$ {{ item.total_item|floatformat:2 }}</span>
+                    </div>
+                {% endfor %}
+                <hr>
+                <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                    <span>Total</span>
+                    <span>R$ {{ subtotal|floatformat:2 }}</span>
+                </div>
+                <button type="submit" style="width: 100%; padding: 1rem; background-color: #5a3e5a; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; margin-top: 1rem;">
+                    Finalizar Compra
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,735 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Afacad', 'sans-serif';
+}
+
+/* MENU */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F8BBD0;
+    padding: 15px;
+    z-index: 10;
+    position: relative;
+}
+
+.logo {
+    flex: 1;
+}
+
+.logo img {
+    height: 90px;
+    max-width: max-content;
+    width: 200px;
+}
+
+/*Container do menu e pesquisa*/
+.menu-search-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Menu principal*/
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    margin-right: 20px;
+}
+
+.nav-menu li {
+    position: relative;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px 24px;
+    display: block;
+    background: #a8a8e9;
+    border-radius: 20px;
+}
+
+.nav-menu li a:hover {
+    background: #6f7b9e;
+}
+
+/* Barra de Pesquisa */
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    width: 200px;
+    font-size: 14px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.search-bar button {
+    background: #d63384;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 40%;
+    color: white;
+    margin: 15px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar button:hover {
+    background: #a82a6b;
+}
+
+/* Ícones de coração, carrinho e perfil*/
+.search-bar a {
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+    padding: 5px;
+}
+
+.search-bar a:hover {
+    color: #d63384;
+}
+
+/* Estilizando menu suspenso */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    min-width: 150px;
+    top: 100%;
+    left: 0;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-out;
+    transform: translateY(8px);
+    margin: 2px;
+    background: #a8a8e9;
+}
+
+.dropdown-menu li {
+    display: block;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    background: #A8A8E9;
+}
+
+.dropdown .dropdown-menu a {
+    border-radius: 0;
+    background: #A8A8E9;
+}
+
+.dropdown-menu li a {
+    color: white;
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.dropdown .dropdown-menu a:hover {
+    background: #9082cc;
+}
+
+.dropdown-menu li:hover {
+    border-radius: 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* MENU EM MOBILE */
+.menu-hamburguer {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.menu-hamburguer div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+}
+
+/* Estilos para o menu lateral */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #a8a8e9;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease-in-out;
+    z-index: 1001;
+}
+
+.mobile-menu .menu-aberto {
+    right: 0;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu ul li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.mobile-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.mobile-menu .dropdown-menu {
+    display: none;
+    background: #A8A8E9;
+    padding-left: 20px;
+}
+
+.mobile-menu .dropdown-menu li {
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+.mobile-menu ul li a:hover {
+    background-color: #6f7b9e;
+}
+
+.mobile-menu .dropdown-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Quando o menu lateral está aberto, os dropdowns também podem ser exibidos */
+.mobile-menu .dropdown.open .dropdown-menu {
+    display: block;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* Botão para fechar o menu lateral */
+.close-menu {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Classe para exibir o menu lateral */
+.menu-aberto {
+    right: 0 !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .menu-hamburguer {
+        display: flex;
+    }
+
+    .dropdown-menu {
+        display: block !important;
+        opacity: 1;
+        transform: translateY(0);
+        position: static;
+        background: none;
+        box-shadow: none;
+    }
+
+    .dropdown-menu li {
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .menu-search-container {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        margin-right: 0;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin-top: 5px;
+        justify-content: center;
+    }
+
+    .search-bar button {
+        margin-right: 0;
+    }
+
+    .search-bar input {
+        width: 40%;
+    }
+}
+
+
+/* ========== MAIN CONTENT ========== */
+main {
+    max-width: 1030px;
+    margin: auto;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    gap: 40px;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.user-area {
+    text-align: center;
+    padding: 20px;
+    width: 300px;
+    height: fit-content;
+}
+
+
+
+.user-area div img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: scale-down;
+}
+
+.info-container {
+    flex: 1;
+}
+
+.user-area h1 {
+    color: #D15180;
+    margin: 20px 0;
+}
+
+.user-area button {
+    display: block;
+    border: 2px solid #D15180;
+    background-color: white;
+    color: #D15180;
+    font-size: 18px;
+    border-radius: 30px;
+    width: 100%;
+    padding: 10px;
+    margin: 15px auto;
+    cursor: pointer;
+}
+
+/* ========== TABS ========== */
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+}
+
+.tab-button {
+    padding: 12px 24px;
+    border: none;
+    background-color: lightgray;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    color: #883251;
+}
+
+.tab-button.active {
+    background-color: #F5F5F5;
+    color: #D15180;
+    border-top: 2px solid #D15180;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.tab-content.active {
+    display: block;
+    color: #D15180;
+
+    background: #F5F5F5;
+    border-radius: 0px 22px 22px 22px;
+
+}
+
+/* ========== PEDIDOS (Layout Original) ========== */
+.pedidos-nav {
+    display: flex;
+    justify-content: space-around;
+    border-top: 2px solid #D15180;
+    border-bottom: 2px solid #D15180;
+    margin: 20px 0;
+}
+
+.pedidos-nav div {
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    text-align: center;
+    background: #eeeeee;
+}
+
+.pedidos-nav div:hover {
+    background: #A8A8E9;
+    color: white;
+}
+
+.table-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+}
+
+.table-container img {
+    width: 100px;
+    height: auto;
+}
+
+/* ========== ENDEREÇOS (Layout Original) ========== */
+.enderecos .table-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.enderecos .table-container>div:first-child {
+    flex: 1;
+    text-align: left;
+}
+
+.enderecos .align-right {
+    text-align: right;
+    margin-left: 40px;
+}
+
+/* ========== CARTÕES (Layout Original) ========== */
+.cartoes .table-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cartoes .table-container>div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.imgBandeiras {
+    width: 60px;
+    height: auto;
+}
+
+/* ========== FORMULÁRIO ========== */
+.tab-content.active form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.tab-content.active form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: all 0.3s ease; 
+}
+
+.tab-content.active form input:focus {
+    outline: none;
+    border-color: #D15180;
+    box-shadow: 0 0 0 3px rgba(209, 81, 128, 0.2);
+}
+
+.tab-content.active form input:focus-visible {
+    outline: 2px solid #D15180;
+    outline-offset: 2px;
+}
+
+button[type="submit"] {
+    background-color: #D15180;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* ========== RESPONSIVIDADE ========== */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .user-area {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .tab-content.active form {
+        grid-template-columns: 1fr;
+    }
+
+    .enderecos .align-right {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .menu-hamburguer {
+        display: flex;
+    }
+
+    .search-bar input {
+        width: 100%;
+    }
+
+    .pedidos-nav {
+        flex-wrap: wrap;
+    }
+
+    .pedidos-nav div {
+        flex: 1 1 50%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .table-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-foto {
+        width: 180px;
+        height: 170px;
+    }
+
+    .tabs {
+        align-items: stretch;
+
+    }
+
+    .tab-button {
+        max-width: 70%;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+    }
+}
+
+/* ========== COMPONENTES COMUNS ========== */
+.erro {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+}
+
+.status {
+    padding: 15px;
+    margin: 1em 0;
+    border-radius: 5px;
+    display: none;
+}
+
+.status.valido {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status.invalido {
+    background: #f8d7da;
+    color: #721c24;
+    display: block;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+
+th,
+td {
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background: #efefef;
+}
+
+tr:hover {
+    background: #e4daec;
+}
+
+.adicionar-produtos {
+    background: #EEEEEE;
+    border: 1px solid #C2C2C2;
+    border-radius: 20px;
+    margin-top: 1em;
+}
+
+/* Rodapé */
+.footer {
+    background: #A8A8E9;
+color: #fff;
+padding: 40px 20px;
+}
+
+.footer-container {
+max-width: 1200px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+flex-wrap: wrap;
+gap: 20px;
+}
+
+/* Coluna da Esquerda */
+.footer-left {
+flex: 1;
+min-width: 250px;
+}
+
+.footer-logo {
+width: 150px;
+margin-bottom: 20px;
+}
+
+.footer-bottom p {
+margin: 5px 0;
+font-size: 0.9rem;
+}
+
+.footer-links {
+margin-top: 10px;
+}
+
+.footer-links a {
+color: #fff;
+text-decoration: none;
+margin-right: 15px;
+font-size: 0.9rem;
+transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+opacity: 0.8;
+}
+
+/* Coluna da Direita */
+.footer-right {
+flex: 1;
+min-width: 200px;
+text-align: right;
+}
+
+.follow-us {
+font-size: 1.1rem;
+font-weight: bold;
+margin-bottom: 10px;
+}
+
+.social-icons {
+display: flex;
+justify-content: flex-end;
+gap: 15px;
+}
+
+.social-icon {
+color: #fff;
+font-size: 1.5rem;
+transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+transform: translateY(-5px);
+color: #d63384;
+}
+
+/* Área dos Desenvolvedores */
+.developers {
+text-align: center;
+margin-top: 30px;
+padding-top: 20px;
+border-top: 1px solid rgba(255, 255, 255, 0.1);
+font-size: 0.9rem;
+color: #fff;
+}
+
+.developers a {
+color: #a82a6b;
+text-decoration: none;
+transition: opacity 0.3s ease;
+}
+
+.developers a:hover {
+opacity: 0.8;
+}

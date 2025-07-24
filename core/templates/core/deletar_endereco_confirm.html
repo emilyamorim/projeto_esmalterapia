@@ -1,8 +1,14 @@
-<h2>Confirmar Exclusão</h2>
-<p>Você tem certeza que deseja excluir o endereço "{{ endereco }}"?</p>
-
-<form method="post">
-    {% csrf_token %}
-    <a href="{% url 'gerenciar_enderecos' %}">Cancelar</a>
-    <button type="submit">Sim, excluir</button>
-</form>
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">
+        <h2>Confirmar Exclusão</h2>
+        <p>Você tem certeza que deseja excluir o endereço "{{ endereco }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" style="background-color: red;">Sim, Excluir</button>
+            <a href="{% url 'gerenciar_enderecos' %}" style="display: block; margin-top: 1rem;">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

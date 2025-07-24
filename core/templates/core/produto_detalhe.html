@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detalhe-container" style="display: flex; max-width: 1200px; margin: 2rem auto; gap: 2rem; padding: 1rem;">
+
+    <div class="detalhe-imagem" style="flex: 1;">
+        {% if produto.imagem %}
+            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" style="width: 100%; border-radius: 8px;">
+        {% else %}
+            <img src="{% static 'img/placeholder.png' %}" alt="Imagem não disponível" style="width: 100%;">
+        {% endif %}
+    </div>
+
+    <div class="detalhe-info" style="flex: 1;">
+        <h1>{{ produto.nome }}</h1>
+        <a href="{% url 'toggle_favorito' produto.id %}">❤️ Favoritar</a> 
+        <p style="font-size: 1.2rem; color: #555;">Marca: {{ produto.marca }}</p>
+        <p style="font-size: 2rem; font-weight: bold; color: var(--cor-secundaria); margin: 1.5rem 0;">R$ {{ produto.preco }}</p>
+
+        <h3 style="margin-top: 2rem;">Descrição</h3>
+        <p>{{ produto.descricao|linebreaks }}</p> <form action="{% url 'adicionar_ao_carrinho' produto.id %}" method="post" style="margin-top: 2rem;">
+            {% csrf_token %}
+            <button type="submit" style="width: 100%; padding: 1rem; background-color: #5a3e5a; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                Adicionar ao Carrinho
+            </button>
+        </form>
+        <form action="{% url 'comprar_agora' produto.id %}" method="post" style="margin-top: 5px;">
+            {% csrf_token %}
+            <button type="submit" class="btn-comprar-agora" style="background-color: #d63384;">Comprar Agora</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

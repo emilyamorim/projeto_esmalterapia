@@ -1,14 +1,22 @@
-<h2>Meus Endereços</h2>
-<a href="{% url 'adicionar_endereco' %}">Adicionar Novo Endereço</a>
+{% extends 'core/base.html' %}
+{% block content %}
+<div style="max-width: 960px; margin: 2rem auto;">
+    <h1 style="text-align: center;">Meus Endereços</h1>
 
-<ul>
+    <a href="{% url 'perfil' %}">← Voltar ao Perfil</a>
+
+    <a href="{% url 'adicionar_endereco' %}" style="display: block; text-align: right; margin-bottom: 1rem;">Adicionar Novo Endereço</a>
+
     {% for endereco in enderecos %}
-        <li>
-            {{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.cidade }} / {{ endereco.estado }}
-            <a href="{% url 'editar_endereco' endereco.pk %}">(Editar)</a>
-            <a href="{% url 'deletar_endereco' endereco.pk %}">(Excluir)</a>
-        </li>
+    <div style="border: 1px solid #eee; padding: 1.5rem; margin-bottom: 1rem; border-radius: 8px;">
+        <p><strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong></p>
+        <p>{{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.estado }}</p>
+        <p>CEP: {{ endereco.cep }}</p>
+        <a href="{% url 'editar_endereco' endereco.id %}">Editar</a> |
+        <a href="{% url 'deletar_endereco' endereco.id %}" style="color: red;">Excluir</a>
+    </div>
     {% empty %}
-        <li>Você ainda não cadastrou nenhum endereço.</li>
+    <p>Você não possui endereços cadastrados.</p>
     {% endfor %}
-</ul>
+</div>
+{% endblock %}

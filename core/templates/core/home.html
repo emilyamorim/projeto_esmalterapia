@@ -1,28 +1,5 @@
-<!-- {% extends 'core/base.html' %}
-{% load static %}
-
-{% block content %}
-<section class="produtos-destaque">
-    <h2>PRODUTOS EM DESTAQUE</h2>
-    <div class="grid-produtos">
-        {% for produto in produtos %}
-            <div class="card-produto">
-                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                <h3>{{ produto.nome }}</h3>
-                <p>{{ produto.marca }}</p>
-                <span>R$ {{ produto.preco }}</span>
-                <button>Adicionar ao Carrinho</button>
-            </div>
-        {% empty %}
-            <p>Nenhum produto em destaque no momento.</p>
-        {% endfor %}
-    </div>
-</section>
-
-{% endblock %} -->
-
-
 {% extends 'core/base.html' %}
+{% load static %}
 {% block content %}
 <div style="text-align: center; padding: 2rem;">
     <h1>Bem-vinda à Unhas Perfeitas!</h1>
@@ -32,14 +9,26 @@
     <h2 style="text-align: center;">Produtos em Destaque</h2>
     <div class="grid-produtos">
         {% for produto in produtos %}
-            <div class="card-produto">
-                {% if produto.imagem %}
+        <div class="card-produto">
+            <a href="{% url 'produto_detalhe' produto.id %}"> {% if produto.imagem %}
                     <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
                 {% endif %}
                 <h3>{{ produto.nome }}</h3>
-                <p>{{ produto.marca }}</p>
-                <span>R$ {{ produto.preco }}</span>
-            </div>
+            </a> 
+            <p>{{ produto.marca }}</p>
+            <span>R$ {{ produto.preco }}</span>
+            <a href="{% url 'toggle_favorito' produto.id %}">❤️</a>
+        
+            <form action="{% url 'adicionar_ao_carrinho' produto.id %}" method="post" style="margin-top: 1rem;">
+                {% csrf_token %}
+                <button type="submit">Adicionar ao Carrinho</button>
+            </form>
+
+            <form action="{% url 'comprar_agora' produto.id %}" method="post" style="margin-top: 5px;">
+                {% csrf_token %}
+                <button type="submit" class="btn-comprar-agora" style="background-color: #d63384;">Comprar Agora</button>
+            </form>
+        </div>
         {% empty %}
             <p>Nenhum produto cadastrado ainda.</p>
         {% endfor %}
