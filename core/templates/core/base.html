@@ -1,20 +1,25 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Esmalterapia</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    
+
     <link rel='stylesheet' href='{% static "core/css/base.css" %}'>
-    
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Abril+Fatface&family=Afacad&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Abril+Fatface&family=Afacad&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <header class="main-header">
         <div class="header-left">
@@ -22,7 +27,7 @@
                 <a href="{% url 'home' %}"><img src="{% static 'core/img/logo-loja-1.png' %}" alt="Unhas Perfeitas"></a>
             </div>
         </div>
-    
+
         <div class="header-right">
             <nav class="main-nav">
                 <ul class="nav-menu">
@@ -42,30 +47,31 @@
                     </li>
                 </ul>
             </nav>
-    
+
             <form action="{% url 'busca' %}" method="get" class="search-bar">
                 <input type="text" name="q" placeholder="Buscar">
                 <button type="submit"><i class="fi fi-rr-search"></i></button>
             </form>
-    
+
             <div class="user-actions">
                 <a href="{% url 'ver_favoritos' %}" title="Favoritos"><i class="fi fi-rr-heart"></i></a>
                 <a href="{% url 'ver_carrinho' %}" title="Carrinho" class="cart-icon">
                     <i class="fi fi-rr-shopping-cart"></i>
-                    <span class="cart-count">{% if request.session.carrinho %}{{ request.session.carrinho|length }}{% else %}0{% endif %}</span>
+                    <span class="cart-count">{% if request.session.carrinho %}{{ request.session.carrinho|length }}{%
+                        else %}0{% endif %}</span>
                 </a>
-                
+
                 {% if user.is_authenticated %}
-                    <a href="{% url 'perfil' %}" title="Minha Conta" class="user-profile-link">
-                        <i class="fi fi-rr-user"></i> 
-                        <span>Olá, {{ user.first_name|default:user.username }}</span>
-                    </a>
+                <a href="{% url 'perfil' %}" title="Minha Conta" class="user-profile-link">
+                    <i class="fi fi-rr-user"></i>
+                    <span>Olá, {{ user.first_name|default:user.username }}</span>
+                </a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="login-link">Entrar</a>
-                    <a href="{% url 'registro' %}" class="register-link">Cadastrar</a>
+                <a href="{% url 'login' %}" class="login-link">Entrar</a>
+                <a href="{% url 'registro' %}" class="register-link">Cadastrar</a>
                 {% endif %}
             </div>
-    
+
             <div class="menu-hamburguer">
                 <div></div>
                 <div></div>
@@ -76,7 +82,7 @@
 
     <div class="mobile-menu">
         <span class="close-menu"><i class="fi fi-rr-rectangle-xmark"></i></span>
-        
+
         <ul>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle">Marcas</a>
@@ -92,25 +98,37 @@
                     <li><a href="#">Produtos em Destaque</a></li>
                 </ul>
             </li>
-    
-            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 1rem;">
-    
+
+            <hr class="menu-divider">
+
             {% if user.is_authenticated %}
-                {% else %}
-                {% endif %}
+            <li><a href="{% url 'perfil' %}"><i class="fi fi-rr-user"></i> Minha Conta</a></li>
+            <li><a href="{% url 'meus_pedidos' %}"><i class="fi fi-rr-box-alt"></i> Meus Pedidos</a></li>
+            <li><a href="{% url 'ver_favoritos' %}"><i class="fi fi-rr-heart"></i> Favoritos</a></li>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button-mobile"><i class="fi fi-rr-sign-out-alt"></i>
+                        Sair</button>
+                </form>
+            </li>
+            {% else %}
+            <li><a href="{% url 'login' %}"><i class="fi fi-rr-sign-in-alt"></i> Entrar</a></li>
+            <li><a href="{% url 'registro' %}"><i class="fi fi-rr-user-add"></i> Cadastrar</a></li>
+            {% endif %}
         </ul>
     </div>
     <div class="overlay"></div>
 
     <main>
         {% if messages %}
-            <div class="container messages-container">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+        <div class="container messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
         {% block content %}{% endblock %}
     </main>
@@ -119,9 +137,10 @@
         <div class="container footer-container">
             <div class="footer-column">
                 <h3 class="footer-title">Esmalterapia</h3>
-                <p>Sua loja número um para esmaltes e cuidados com as unhas. Encontre as melhores marcas e as últimas tendências aqui.</p>
+                <p>Sua loja número um para esmaltes e cuidados com as unhas. Encontre as melhores marcas e as últimas
+                    tendências aqui.</p>
             </div>
-    
+
             <div class="footer-column">
                 <h3 class="footer-title">Navegue</h3>
                 <ul class="footer-links">
@@ -131,7 +150,7 @@
                     <li><a href="#">Contato</a></li>
                 </ul>
             </div>
-    
+
             <div class="footer-column">
                 <h3 class="footer-title">Atendimento</h3>
                 <ul class="footer-links">
@@ -140,7 +159,7 @@
                     <li><a href="#">Política de Trocas</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-column">
                 <h3 class="footer-title">Siga-nos</h3>
                 <div class="social-icons">
@@ -154,7 +173,8 @@
             <p>© {% now "Y" %} Unhas Perfeitas | Desenvolvido com ❤️ por suas criadoras</p>
         </div>
     </footer>
-    
+
     <script src='{% static "core/js/base.js" %}'></script>
 </body>
+
 </html>
