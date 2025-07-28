@@ -1,72 +1,127 @@
 # ==============================================================================
-# IMPORTAÇÕES
+# IMPORTAÇÕES DE MÓDULOS E BIBLIOTECAS
 # ==============================================================================
-from django.urls import path
-from django.contrib.auth import views as auth_views # Views de autenticação prontas do Django
-from . import views # Nossas views customizadas
-
+from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # ==============================================================================
-# DEFINIÇÃO DAS ROTAS (URL PATTERNS)
+# DEFINIÇÃO DOS MODELOS
 # ==============================================================================
-# Cada 'path' define uma rota, a view que a controla e um nome único para referência.
 
-urlpatterns = [
+class Produto(models.Model):
+    """
+    Representa um produto (esmalte, acessório, etc.) a ser vendido no e-commerce.
+    """
+    # --- Campos do Produto ---
+    nome = models.CharField(max_length=100, help_text="Nome do produto.")
+    descricao = models.TextField(help_text="Descrição detalhada do produto.")
+    preco = models.DecimalField(max_digits=10, decimal_places=2, help_text="Preço de venda do produto.")
+    marca = models.CharField(max_length=50, help_text="Marca do produto (ex: Risqué).")
     
-    # --- Páginas Gerais e Catálogo ---
-    path('', views.home_view, name='home'),
-    path('produto/<int:produto_id>/', views.produto_detalhe, name='produto_detalhe'),
-    path('busca/', views.busca, name='busca'),
+    # ImageField requer a biblioteca 'Pillow' para funcionar.
+    # 'upload_to' especifica o subdiretório dentro da pasta MEDIA onde as imagens serão salvas.
+    imagem = models.ImageField(upload_to='produtos/', blank=True, null=True, help_text="Imagem do produto.")
+
+    def __str__(self):
+        """
+        Representação em string do objeto, usada principalmente no painel de administração.
+        """
+        return self.nome
 
 
-    # --- Autenticação e Cadastro de Usuário ---
-    path('registro/', views.SignUpView.as_view(), name='registro'),
-    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
-    # A URL de redirecionamento do logout é controlada por LOGOUT_REDIRECT_URL em settings.py
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
-
-    # --- Recuperação de Senha ---
-    path('password_reset/', auth_views.PasswordResetView.as_view(
-        template_name='core/registration/password_reset_form.html'), 
-        name='password_reset'),
-    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(
-        template_name='core/registration/password_reset_done.html'),
-        name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        template_name='core/registration/password_reset_confirm.html'),
-        name='password_reset_confirm'),
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(
-        template_name='core/registration/password_reset_complete.html'),
-        name='password_reset_complete'),
-
-
-    # --- Perfil e Gestão da Conta do Usuário ---
-    path('perfil/', views.perfil_view, name='perfil'),
-    path('perfil/deletar/', views.deletar_conta_view, name='deletar_conta'),
-    path('meus-pedidos/', views.meus_pedidos, name='meus_pedidos'),
-    path('favoritos/', views.ver_favoritos, name='ver_favoritos'),
-    path('favoritos/toggle/<int:produto_id>/', views.toggle_favorito, name='toggle_favorito'),
-
+class Usuario(AbstractUser):
+    """
+    Modelo de usuário customizado que herda do usuário padrão do Django (AbstractUser).
+    Isso nos permite adicionar campos extras como CPF e telefone, mantendo todo o sistema de 
+    autenticação, permissões e sessões do Django.
+    """
+    # --- Campos Adicionais do Usuário ---
+    cpf = models.CharField(max_length=14, unique=True, verbose_name='CPF', help_text="CPF do usuário, deve ser único.")
+    telefone = models.CharField(max_length=15, blank=True, null=True, help_text="Telefone de contato do usuário.")
     
-    # --- CRUD de Endereços do Usuário ---
-    path('meus-enderecos/', views.gerenciar_enderecos, name='gerenciar_enderecos'),
-    path('meus-enderecos/adicionar/', views.adicionar_endereco, name='adicionar_endereco'),
-    path('meus-enderecos/editar/<int:endereco_id>/', views.editar_endereco, name='editar_endereco'),
-    path('meus-enderecos/deletar/<int:endereco_id>/', views.deletar_endereco, name='deletar_endereco'),
+    # Campo de email, tornado obrigatório e único para ser usado no login.
+    email = models.EmailField(unique=True)
+    
+    # Relacionamento Muitos-para-Muitos: um usuário pode favoritar vários produtos,
+    # e um produto pode ser favoritado por vários usuários.
+    # 'blank=True' permite que um usuário não tenha nenhum favorito.
+    favoritos = models.ManyToManyField(Produto, related_name='favoritado_por', blank=True)
+    
+    # --- Configurações do Modelo de Usuário Customizado ---
+    # Define que o campo 'email' será usado para o login, em vez do 'username'.
+    USERNAME_FIELD = 'email'
+    
+    # Campos exigidos ao criar um superusuário pelo comando 'createsuperuser'.
+    # 'username' ainda é necessário por compatibilidade com partes do Django.
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+
+    def __str__(self):
+        return self.email
 
 
-    # --- Carrinho de Compras ---
-    path('carrinho/', views.ver_carrinho, name='ver_carrinho'),
-    path('carrinho/adicionar/<int:produto_id>/', views.adicionar_ao_carrinho, name='adicionar_ao_carrinho'),
-    path('carrinho/remover/<int:produto_id>/', views.remover_do_carrinho, name='remover_do_carrinho'),
-    path('carrinho/atualizar/', views.atualizar_carrinho, name='atualizar_carrinho'),
+class EnderecoUsuario(models.Model):
+    """
+    Armazena os endereços de entrega associados a um usuário.
+    """
+    # Relacionamento Um-para-Muitos: um usuário pode ter vários endereços.
+    # on_delete=models.CASCADE: Se o usuário for deletado, seus endereços também serão.
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='enderecos')
+    
+    # --- Campos do Endereço ---
+    logradouro = models.CharField(max_length=255)
+    numero = models.CharField(max_length=20)
+    complemento = models.CharField(max_length=100, blank=True, null=True)
+    bairro = models.CharField(max_length=100, null=True, blank=True)
+    cidade = models.CharField(max_length=100)
+    estado = models.CharField(max_length=2, help_text="Sigla do estado, ex: SP")
+    cep = models.CharField(max_length=9, help_text="Formato 00000-000")
+
+    def __str__(self):
+        return f"{self.logradouro}, {self.numero} - {self.cidade}"
 
 
-    # --- Processo de Checkout ---
-    path('comprar-agora/<int:produto_id>/', views.comprar_agora, name='comprar_agora'),
-    path('checkout/', views.checkout_page, name='checkout_page'),
-    path('checkout/fechar-pedido/', views.fechar_pedido, name='fechar_pedido'),
-    path('pedido/confirmado/<int:pedido_id>/', views.pedido_confirmado, name='pedido_confirmado'),
+class Pedido(models.Model):
+    """
+    Representa um pedido finalizado pelo usuário, contendo o resumo da compra.
+    """
+    # Relacionamento com o usuário que fez o pedido.
+    # on_delete=models.SET_NULL: Se o usuário for deletado, o pedido não será apagado,
+    # mas o campo 'usuario' ficará nulo, preservando o histórico de vendas.
+    usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # Relacionamento com o endereço de entrega escolhido para este pedido.
+    endereco_entrega = models.ForeignKey(EnderecoUsuario, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # --- Campos do Pedido ---
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2)
+    # auto_now_add=True: Preenche automaticamente com a data e hora no momento da criação.
+    data_pedido = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, default='Pendente', help_text="Status atual do pedido.")
+    
+    def __str__(self):
+        # Exibe o nome do usuário se ele existir, senão exibe 'Convidado'.
+        nome_usuario = self.usuario.first_name if self.usuario else 'Convidado'
+        return f"Pedido {self.id} - {nome_usuario}"
 
-]
+
+class ItemPedido(models.Model):
+    """
+    Representa um item específico dentro de um Pedido.
+    Funciona como a linha de uma nota fiscal.
+    """
+    # Relacionamento com o Pedido ao qual este item pertence.
+    # related_name='itens': Permite acessar todos os itens a partir de um objeto Pedido (ex: meu_pedido.itens.all()).
+    pedido = models.ForeignKey(Pedido, related_name='itens', on_delete=models.CASCADE)
+    
+    # Relacionamento com o Produto que foi comprado.
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    
+    # --- Campos do Item do Pedido ---
+    quantidade = models.PositiveIntegerField(default=1)
+    
+    # Armazena o preço do produto NO MOMENTO DA COMPRA. Isso é crucial para que, 
+    # mesmo se o preço do produto mudar no futuro, o histórico do pedido continue correto.
+    preco_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.quantidade}x {self.produto.nome} no Pedido {self.pedido.id}"

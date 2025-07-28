@@ -1,0 +1,528 @@
+/* ==========================================================================
+   1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS
+   ========================================================================== */
+
+/* * :root define variáveis CSS globais para manter a consistência do design.
+ * Mudar uma cor ou fonte aqui irá atualizar o site inteiro.
+*/
+:root {
+    --cor-primaria: #F8BBD0;       /* Rosa claro usado no header */
+    --cor-secundaria: #A8A8E9;      /* Lilás dos menus e footer */
+    --cor-destaque: #d63384;        /* Rosa escuro para botões e detalhes */
+    --cor-texto: #333;              /* Cor padrão para textos */
+    --cor-fundo: #fdf6f6;           /* Fundo geral levemente rosado */
+    --cor-branco: #ffffff;
+    --fonte-principal: 'Afacad', sans-serif;
+    --fonte-titulo: 'Abril Fatface', serif;
+    --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Reset básico para remover estilos padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo base para o corpo da página */
+body {
+    background-color: var(--cor-fundo);
+    font-family: var(--fonte-principal);
+    color: var(--cor-texto);
+}
+
+/* Classe utilitária para centralizar conteúdo principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO (HEADER)
+   ========================================================================== */
+
+/* Container principal do cabeçalho */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cor-primaria);
+    padding: 0.5rem 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Seção esquerda do cabeçalho (logo) */
+.header-left {
+    flex-shrink: 0; /* Impede que o logo seja espremido em telas menores */
+}
+.logo-container img {
+    height: 140px;
+    display: block; /* Remove espaço extra que imagens inline podem ter */
+}
+
+/* Seção direita do cabeçalho (navegação, busca, ações) */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* Navegação principal (links "Marcas", "Destaque") */
+.main-nav .nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 0.5rem;
+}
+.nav-menu li a {
+    text-decoration: none;
+    color: var(--cor-branco);
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    display: block;
+    background: var(--cor-secundaria);
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+.nav-menu li a:hover {
+    background: #6f7b9e;
+}
+
+/* Estilos para o menu suspenso (dropdown) */
+.dropdown {
+    position: relative;
+}
+.dropdown-menu {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    min-width: 180px;
+    top: 100%;
+    left: 0;
+    box-shadow: var(--sombra-suave);
+    z-index: 15;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px); /* Começa ligeiramente abaixo para efeito de animação */
+    margin-top: 0.5rem;
+    background: var(--cor-secundaria);
+    list-style: none;
+    border-radius: 8px;
+    overflow: hidden; 
+}
+/* O dropdown aparece quando o mouse passa sobre o item pai */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+.dropdown-menu li a {
+    width: 100%;
+    text-align: left;
+    border-radius: 0;
+    background: var(--cor-secundaria);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dropdown-menu li:last-child a {
+    border-bottom: none;
+}
+
+/* Barra de Busca */
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+.search-bar input {
+    padding: 0.7rem 1rem;
+    padding-left: 20px;
+    border: none;
+    border-radius: 20px;
+    width: 250px;
+    border: 2px solid var(--cor-secundaria);
+}
+.search-bar button {
+    background: var(--cor-secundaria);
+    border: none;
+    cursor: pointer;
+    color: var(--cor-branco);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+    margin-left: -30px; /* Sobrepõe o botão ao input para um visual integrado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+.search-bar button:hover {
+    background: #6f7b9e;
+}
+.search-bar button i {
+    font-size: 1rem;
+}
+/* Garante que o botão de busca não mude de cor ao ser clicado */
+.search-bar button:focus,
+.search-bar button:active,
+.search-bar button:focus-visible {
+    background-color: var(--cor-secundaria) !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Ícones e links de ação do usuário (canto direito) */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.user-actions a {
+    color: var(--cor-branco);
+    font-size: 1.6rem;
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s ease;
+}
+.user-actions a:hover {
+    transform: scale(1.1); /* Efeito de zoom sutil */
+}
+.user-actions .login-link,
+.user-actions .register-link {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: var(--cor-destaque);
+    transition: background-color 0.3s ease;
+}
+.user-actions .login-link:hover,
+.user-actions .register-link:hover {
+    background-color: #a82a6b;
+}
+.user-actions .user-profile-link span {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Contador de itens no ícone do carrinho */
+.cart-icon .cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: var(--cor-destaque);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* Ícone de Menu Hambúrguer para telas pequenas */
+.menu-hamburguer {
+    display: none; /* Escondido em telas grandes */
+}
+
+/* ==========================================================================
+   MENU MOBILE
+   ========================================================================== */
+
+/* O painel do menu, posicionado fora da tela à direita por padrão */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Começa 300px para fora da tela */
+    width: 300px;  /* Largura do menu */
+    height: 100%;
+    background-color: var(--cor-secundaria);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Animação suave */
+    z-index: 1001; /* Garante que fique acima de outros conteúdos */
+    padding-top: 60px;
+}
+
+/* Classe que o JavaScript irá adicionar para MOSTRAR o menu */
+.mobile-menu.menu-aberto {
+    right: 0; /* Desliza o menu para dentro da tela */
+}
+
+.mobile-menu ul {
+    list-style: none;
+}
+
+.mobile-menu ul li a, .mobile-menu .logout-button-mobile {
+    display: flex; /* Para alinhar ícone e texto */
+    align-items: center;
+    gap: 1rem; /* Espaço entre ícone e texto */
+    padding: 1rem 1.5rem;
+    color: var(--cor-branco);
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s;
+}
+
+/* Estilo para o botão de sair, para que pareça um link normal */
+.logout-button-mobile {
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.mobile-menu ul li a:hover, .mobile-menu .logout-button-mobile:hover {
+    background-color: #6f7b9e;
+}
+
+/* O botão 'X' para fechar o menu */
+.close-menu {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    color: var(--cor-branco);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+.close-menu:hover {
+    transform: rotate(90deg);
+}
+
+/* A camada escura de fundo (overlay) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    opacity: 0; /* Começa transparente */
+    visibility: hidden; /* Começa invisível e não clicável */
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Classe que o JavaScript irá adicionar para MOSTRAR o overlay */
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estilo para o link que abre o submenu */
+.mobile-menu .dropdown-toggle {
+    display: flex;
+    justify-content: space-between; /* Empurra a seta para a direita */
+    align-items: center;
+}
+
+/* Seta indicadora ao lado do link */
+.mobile-menu .dropdown-toggle::after {
+    content: '\f078'; /* Ícone de seta para baixo do Font Awesome */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+/* Gira a seta quando o menu está aberto */
+.mobile-menu .dropdown.open .dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+/* O submenu fica escondido por padrão */
+.mobile-menu .dropdown-menu {
+    list-style: none;
+    padding-left: 1.5rem; /* Recuo para os sub-itens */
+    max-height: 0; /* Começa com altura zero */
+    overflow: hidden; /* Esconde o conteúdo que transborda */
+    transition: max-height 0.4s ease-in-out; /* Animação suave de altura */
+}
+
+/* Quando a classe .open é adicionada ao <li>, o submenu se expande */
+.mobile-menu .dropdown.open .dropdown-menu {
+    max-height: 500px; /* Uma altura máxima grande o suficiente para o conteúdo */
+    margin-top: 0.5rem;
+}
+
+
+
+/* ==========================================================================
+   3. MENSAGENS DE FEEDBACK (ALERTS)
+   ========================================================================== */
+
+/* Container para as mensagens do Django (sucesso, erro, etc.) */
+.messages-container {
+    padding: 0 1rem; /* Adicionado para alinhar com o .container */
+    max-width: 1200px;
+    margin: 1rem auto 0 auto;
+}
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    color: var(--cor-branco);
+    text-align: center;
+}
+.alert-success { background-color: #28a745; }
+.alert-error { background-color: #dc3545; }
+.alert-info { background-color: #17a2b8; }
+
+
+/* ==========================================================================
+   4. RODAPÉ (FOOTER)
+   ========================================================================== */
+.main-footer {
+    background-color: var(--cor-secundaria);
+    color: var(--cor-branco);
+    padding: 4rem 0 1.5rem 0;
+    margin-top: 4rem;
+    font-size: 0.95rem; /* Fonte base do rodapé suavizada */
+}
+/* Layout em grid para as colunas do rodapé */
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
+.footer-column {
+    padding: 0 1rem;
+}
+.footer-title {
+    font-family: var(--fonte-titulo);
+    font-size: 1.3rem; /* Título suavizado */
+    margin-bottom: 1.5rem;
+    color: var(--cor-branco);
+    position: relative;
+    font-weight: 500;
+}
+/* Linha decorativa abaixo dos títulos do rodapé */
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    height: 3px;
+    width: 40px;
+    background-color: var(--cor-destaque);
+}
+.footer-column p {
+    line-height: 1.6;
+    opacity: 0.9;
+}
+.footer-links {
+    list-style: none;
+}
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+.footer-links a {
+    color: var(--cor-branco);
+    text-decoration: none;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+.footer-links a:hover {
+    opacity: 1;
+    padding-left: 5px;
+    color: var(--cor-destaque);
+}
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+.social-icon {
+    color: var(--cor-branco);
+    font-size: 1.8rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.social-icon:hover {
+    transform: translateY(-3px);
+    color: var(--cor-destaque);
+}
+.footer-bottom {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   5. RESPONSIVIDADE (TELAS PEQUENAS)
+   ========================================================================== */
+
+/* Estilos aplicados quando a tela for menor que 992px */
+@media (max-width: 992px) {
+    .main-header {
+        padding: 0.5rem 1rem;
+    }
+    /* Esconde a navegação principal de texto */
+    .main-nav {
+        display: none;
+    }
+    .header-right {
+        gap: 0.75rem;
+    }
+    .search-bar input {
+        width: 120px;
+    }
+    .user-actions {
+        gap: 0.5rem;
+    }
+    /* Padroniza o tamanho de todos os ícones de ação */
+    .user-actions a {
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        font-size: 1.2rem;
+        gap: 0;
+    }
+    /* Transforma os links de texto "Entrar/Cadastrar" em ícones */
+    .user-actions .login-link,
+    .user-actions .register-link {
+        font-size: 0;
+        padding: 0;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .user-actions .login-link::before,
+    .user-actions .register-link::before {
+        content: '\f2f6';
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 1rem;
+        line-height: 1;
+    }
+    .user-actions .register-link::before {
+        content: '\f234';
+    }
+    /* Esconde o texto "Olá, nome" ao lado do ícone de perfil */
+    .user-actions .user-profile-link span {
+        display: none;
+    }
+    /* Exibe o menu hambúrguer */
+    .menu-hamburguer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+        margin-left: 0.5rem;
+    }
+    .menu-hamburguer div {
+        width: 25px;
+        height: 3px;
+        background-color: var(--cor-branco);
+        margin: 4px 0;
+        transition: all 0.3s ease;
+    }
+}

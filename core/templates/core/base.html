@@ -2,57 +2,159 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Unhas Perfeitas</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Esmalterapia</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    
+    <link rel='stylesheet' href='{% static "core/css/base.css" %}'>
+    
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Abril+Fatface&family=Afacad&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header style="padding: 1rem; background-color: #f8f8f8; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-        <a href="{% url 'home' %}">
-            <img src="{% static 'img/logo.png' %}" alt="Logo Unhas Perfeitas" style="height: 40px;">
-        </a>
+    <header class="main-header">
+        <div class="header-left">
+            <div class="logo-container">
+                <a href="{% url 'home' %}"><img src="{% static 'core/img/logo-loja-1.png' %}" alt="Unhas Perfeitas"></a>
+            </div>
+        </div>
     
-        <form action="{% url 'busca' %}" method="get" class="form-busca" style="flex-grow: 1; margin: 0 2rem;">
-            <input type="text" name="q" placeholder="Buscar esmaltes..." style="width: 100%; padding: 0.5rem;">
-        </form>
-        <nav>
+        <div class="header-right">
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li class="dropdown">
+                        <a href="#">Marcas</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Rísque</a></li>
+                            <li><a href="#">Colorama</a></li>
+                            <li><a href="#">Impala</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">Destaque</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Produtos em Destaque</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+    
+            <form action="{% url 'busca' %}" method="get" class="search-bar">
+                <input type="text" name="q" placeholder="Buscar">
+                <button type="submit"><i class="fi fi-rr-search"></i></button>
+            </form>
+    
+            <div class="user-actions">
+                <a href="{% url 'ver_favoritos' %}" title="Favoritos"><i class="fi fi-rr-heart"></i></a>
+                <a href="{% url 'ver_carrinho' %}" title="Carrinho" class="cart-icon">
+                    <i class="fi fi-rr-shopping-cart"></i>
+                    <span class="cart-count">{% if request.session.carrinho %}{{ request.session.carrinho|length }}{% else %}0{% endif %}</span>
+                </a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'perfil' %}" title="Minha Conta" class="user-profile-link">
+                        <i class="fi fi-rr-user"></i> 
+                        <span>Olá, {{ user.first_name|default:user.username }}</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="login-link">Entrar</a>
+                    <a href="{% url 'registro' %}" class="register-link">Cadastrar</a>
+                {% endif %}
+            </div>
+    
+            <div class="menu-hamburguer">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-menu">
+        <span class="close-menu"><i class="fi fi-rr-rectangle-xmark"></i></span>
+        
+        <ul>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Marcas</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Rísque</a></li>
+                    <li><a href="#">Colorama</a></li>
+                    <li><a href="#">Impala</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Destaque</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Produtos em Destaque</a></li>
+                </ul>
+            </li>
+    
+            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 1rem;">
+    
             {% if user.is_authenticated %}
                 {% else %}
                 {% endif %}
-        
-            <a href="{% url 'ver_favoritos' %}">Favoritos</a>
-            <a href="{% url 'ver_carrinho' %}" style="margin-left: 1rem;">
-                🛒 <span class="cart-count">
-                    {% if request.session.carrinho %}
-                        {{ request.session.carrinho|length }}
-                    {% else %}
-                        0
-                    {% endif %}
-                </span>
-            </a>
-
-            {% if user.is_authenticated %}
-                <a href="{% url 'perfil' %}">Olá, {{ user.first_name }}</a>
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit">Sair</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a> |
-                <a href="{% url 'registro' %}">Cadastrar</a>
-            {% endif %}
-        </nav>
-    </header>
+        </ul>
+    </div>
+    <div class="overlay"></div>
 
     <main>
-        :
-        {% block content %}
-        {% endblock %}
+        {% if messages %}
+            <div class="container messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
     </main>
 
-    <footer style="text-align: center; padding: 2rem; margin-top: 2rem; background-color: #f8f8f8;">
-        <p>&copy; {% now "Y" %} Unhas Perfeitas. Todos os direitos reservados.</p>
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">Esmalterapia</h3>
+                <p>Sua loja número um para esmaltes e cuidados com as unhas. Encontre as melhores marcas e as últimas tendências aqui.</p>
+            </div>
+    
+            <div class="footer-column">
+                <h3 class="footer-title">Navegue</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Termos de Uso</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+    
+            <div class="footer-column">
+                <h3 class="footer-title">Atendimento</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Perguntas Frequentes</a></li>
+                    <li><a href="#">Como Comprar</a></li>
+                    <li><a href="#">Política de Trocas</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3 class="footer-title">Siga-nos</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© {% now "Y" %} Unhas Perfeitas | Desenvolvido com ❤️ por suas criadoras</p>
+        </div>
     </footer>
+    
+    <script src='{% static "core/js/base.js" %}'></script>
 </body>
 </html>
