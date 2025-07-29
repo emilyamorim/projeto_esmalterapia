@@ -567,21 +567,26 @@ body {
 
     /* CORREÇÃO DEFINITIVA PARA O CONTADOR DO CARRINHO */
     .cart-icon .cart-count {
-        display: flex !important; /* Garante que ele seja sempre visível */
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        width: 20px;
-        height: 20px;
-        font-size: 12px;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        background: var(--cor-destaque);
-        border-radius: 50%;
-        color: var(--cor-branco);
-        /* z-index garante que ele fique por cima de tudo */
-        z-index: 1;
+        /* Visibilidade e Centralização */
+    display: flex !important; /* !important força a exibição sobre qualquer outra regra */
+    justify-content: center;
+    align-items: center;
+    
+    /* Posicionamento */
+    position: absolute;
+    top: -8px;   /* Um pouco para cima do ícone */
+    right: -10px; /* Um pouco para a direita do ícone */
+    z-index: 2;  /* Garante que fique na frente de tudo */
+
+    /* Aparência */
+    width: 20px;
+    height: 20px;
+    background: var(--cor-destaque);
+    color: var(--cor-branco);
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1; /* Garante que o número fique bem centralizado verticalmente */
     }
 
     /* Exibe o menu hambúrguer */
