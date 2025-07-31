@@ -1,14 +1,25 @@
 {% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="auth-container">
     <div class="auth-box">
         <h2>LOGIN</h2>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }} <button type="submit">Acessar</button>
+            
+            {{ form.as_p }}
+            
+            <button type="submit" class="btn-principal">Acessar</button>
         </form>
-        <a href="{% url 'password_reset' %}" class="forgot-password">Esqueci minha senha</a>
-        <p style="margin-top: 1rem;">Não tem uma conta? <a href="{% url 'registro' %}">Cadastre-se</a></p>
+        <div class="auth-links">
+            <a href="{% url 'password_reset' %}">Esqueci minha senha</a>
+            <p style="margin-top: 1rem;">Não tem uma conta? <a href="{% url 'registro' %}">Faça o cadastro</a></p>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,48 +1,90 @@
+:root {
+    --cor-primaria: #F8BBD0;       /* Rosa claro usado no header */
+    --cor-secundaria: #A8A8E9;      /* Lilás dos menus e footer */
+    --cor-destaque: #d63384;        /* Rosa escuro para botões e detalhes */
+    --cor-texto: #333;              /* Cor padrão para textos */
+    --cor-fundo: #fdf6f6;           /* Fundo geral levemente rosado */
+    --cor-branco: #ffffff;
+    --fonte-principal: 'Afacad', sans-serif;
+    --fonte-titulo: 'Abril Fatface', serif;
+    --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 /* --- Carrossel --- */
 .carrossel {
     width: 100%;
+    height: 70vh;
     overflow: hidden;
     position: relative;
 }
-.slides { 
-    display: flex; 
-    width: 100%; 
-    position: relative; 
-    transition: transform 0.5s ease-in-out;
+.slides {
+    width: 100%;
+    height: 100%;
+    position: relative; /* Adicionado para garantir o contexto */
 }
 
-.slides img { 
-    width: 100%; 
-    display: none; 
-    flex-shrink: 0;
+.slide {
+    width: 100%;
+    height: 100%;
+    position: absolute; /* Todos os slides ocupam o mesmo espaço */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Começam invisíveis */
+    transition: opacity 0.8s ease-in-out; /* Animação suave de fade */
+    visibility: hidden; /* Garante que está escondido */
+
+    /* Estilos para o fundo e conteúdo que você já tinha */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-.slides img.active { 
-    display: block !important; 
+/* ESTA É A REGRA MAIS IMPORTANTE: */
+/* Quando um slide tem a classe .active, ele se torna visível */
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1; /* Garante que ele fique na frente dos outros */
 }
 
-.indicadores { 
-    position: absolute; 
-    bottom: 20px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    display: flex; 
-    gap: 10px; 
+/* ... (resto do código do carrossel para .slide-content, .indicadores, etc., continua o mesmo) ... */
+.slide::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
 }
-
+.slide-content {
+    position: relative; z-index: 2; color: var(--cor-branco);
+}
+.slide-content h2 {
+    font-family: var(--fonte-titulo); font-size: 3.5rem; margin-bottom: 1rem;
+}
+.slide-content p {
+    font-size: 1.2rem; margin-bottom: 2rem;
+}
+.btn-slide {
+    background-color: var(--cor-destaque); color: var(--cor-branco); padding: 0.8rem 2rem;
+    border-radius: 25px; text-decoration: none; font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.btn-slide:hover {
+    background-color: #a82a6b;
+}
+.indicadores {
+    position: absolute; bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 3;
+}
 .indicadores span {
-    width: 12px; 
-    height: 12px; 
-    background: #CCC; 
-    border-radius: 50%; 
-    cursor: pointer; 
-    transition: background 0.3s; 
+    width: 12px; height: 12px; background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%; cursor: pointer; transition: background 0.3s ease;
 }
-
-.indicadores span.ativo { 
-    background: #d63384; 
+.indicadores span.ativo {
+    background: var(--cor-destaque);
 }
-
 /* --- Seção de Marcas --- */
 .marcas { padding: 20px; text-align: center; background-color: #E6E6FA; }
 .marcas h2 { font-size: 30px; margin-bottom: 20px; color: #d63384; }
@@ -54,14 +96,134 @@
 .marca-icone { position: absolute; bottom: 15px; right: 15px; font-size: 25px; color:#d63384; text-decoration: none; }
 
 /* --- Seção de Produtos em Destaque --- */
-.produtos-destaque { padding: 20px; text-align: center; background-color: #fff; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); }
+.produtos-destaque { 
+    padding: 4rem 2rem; 
+    text-align: center; 
+    background-color: var(--cor-branco);
+}
+
+.produtos-destaque h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--cor-texto);
+}
+
+.produto-container { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 2rem; 
+}
+
+/* MODIFICAÇÃO 2: Card de produto mais moderno */
+.produto {
+    background-color: var(--cor-branco);
+    border-radius: 12px;
+    box-shadow: var(--sombra-suave);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: relative; /* Importante para o ícone de favorito */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.produto:hover {
+    transform: translateY(-8px); /* Efeito de "levantar" o card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.produto-link-imagem img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+
+.produto-nome {
+    font-size: 1rem;
+    color: var(--cor-texto);
+    margin-bottom: 0.5rem;
+    flex-grow: 1; /* Empurra o preço e botões para baixo */
+}
+
+/* MODIFICAÇÃO 1: Preço com mais destaque */
+.produto-preco {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--cor-destaque);
+    margin-bottom: 1rem;
+}
+
+.produto-botoes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Estilo unificado para os botões */
+.btn-principal, .btn-secundario {
+    width: 100%;
+    border: none;
+    padding: 0.8rem;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+.btn-principal {
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+}
+.btn-secundario {
+    background-color: var(--cor-branco);
+    color: var(--cor-destaque);
+    border: 2px solid var(--cor-destaque);
+}
+.btn-principal:hover {
+    opacity: 0.85;
+}
+.btn-secundario:hover {
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+}
+
+/* MODIFICAÇÃO 1: Link de favorito sem sublinhado e posicionado */
+.favorite-link {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: var(--cor-destaque);
+    text-decoration: none; /* Remove a linha azul */
+    z-index: 5;
+    transition: transform 0.3s ease;
+}
+.favorite-link:hover {
+    transform: scale(1.2);
+}
+
+.favorite-link .fa-heart {
+    font-family: "Font Awesome 5 Free"; /* Garante que está usando a fonte correta */
+    font-weight: 900; /* Para o ícone preenchido */
+}
+.favorite-link .far.fa-heart {
+    font-weight: 400; /* Para o ícone de contorno */
+}
+/* .produtos-destaque { 
+    padding: 20px; 
+    text-align: center; 
+    background-color: #fff; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+}
 .produtos-destaque h2 { margin-bottom: 20px; }
 .produto-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); justify-content: center; gap: 20px; }
 .produto { background-color: #fbe8e7; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center; display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; border: 3px solid var(--cor-amarelo-borda); }
 .produto img { max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px; }
 .produto p { font-size: 14px; color: #333; margin-bottom: 10px; flex-grow: 1; }
 .produto button { background: #d63384; color: white; border: none; padding: 10px 20px; cursor: pointer; border: 3px solid var(--cor-amarelo-borda); border-radius: 50px; font-size: 14px; margin-top: auto; transition: background 0.3s ease; }
-.produto button:hover { background-color: #a82a6b; }
+.produto button:hover { background-color: #a82a6b; } */
 
 /* --- Seção de Promoção Relâmpago --- */
 .highlight-promo { background-color: #eb5874; color: #fff; text-align: center; padding: 60px 20px; }

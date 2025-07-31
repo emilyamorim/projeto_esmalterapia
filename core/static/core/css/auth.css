@@ -1,0 +1,102 @@
+/* static/core/css/auth.css (VERSÃO MODERNA) */
+
+/* Container principal com o fundo gradiente (mantido) */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1rem;
+    min-height: 70vh;
+    background: linear-gradient( #F8BBD0 0%, #A8A8E9 100%);
+    border-top: #FFCC00 solid 1px;
+    border-bottom: #FFCC00 solid 1px;
+}
+
+/* 1 & 2: Caixa do formulário com fundo branco e sombra suave */
+.auth-box {
+    background-color: var(--cor-branco); /* Fundo branco em vez de roxo */
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    box-shadow: var(--sombra-suave); /* Sombra suave em vez da borda amarela */
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.auth-box h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.5rem;
+    color: var(--cor-texto); /* Texto escuro para contrastar com o fundo branco */
+    margin-bottom: 2rem;
+}
+
+.auth-box form {
+    text-align: left;
+}
+.auth-box form p {
+    margin-bottom: 1.5rem;
+}
+
+/* 5. Tipografia e Links: Ajuste nos labels */
+.auth-box form label {
+    display: block;
+    color: #555; /* Cor do label um pouco mais suave */
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* 3. Campos de formulário refinados */
+.auth-box form input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd; /* Borda sutil */
+    border-radius: 10px;
+    background-color: #f9f9f9; /* Fundo levemente acinzentado */
+    font-size: 1rem;
+    color: var(--cor-texto);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de foco nos inputs */
+.auth-box form input:focus {
+    outline: none;
+    border-color: var(--cor-secundaria); /* A borda fica lilás ao clicar */
+    box-shadow: 0 0 0 3px rgba(168, 168, 233, 0.2); /* Brilho sutil ao redor */
+}
+
+/* 4. Botão de ação modernizado */
+.auth-box .btn-principal {
+    width: 100%;
+    padding: 1rem;
+    /* Gradiente sutil com as cores da sua marca */
+    background: linear-gradient(45deg, var(--cor-secundaria), var(--cor-destaque));
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-box .btn-principal:hover {
+    transform: scale(1.02); /* Efeito de crescimento sutil */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 5. Links extras com estilo mais limpo */
+.auth-links {
+    margin-top: 1.5rem;
+    color: #777;
+    font-size: 0.9rem;
+}
+.auth-links a {
+    color: var(--cor-destaque);
+    font-weight: bold;
+    text-decoration: none;
+}
+.auth-links a:hover {
+    text-decoration: underline;
+}

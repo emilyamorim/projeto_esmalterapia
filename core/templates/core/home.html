@@ -8,107 +8,131 @@
 
 {% block content %}
 
-    <section class="carrossel">
-        <div class="slides">
-            <img src="{% static 'core/img/banner_1.png' %}" class="active" alt="Banner 1">
-            <img src="{% static 'core/img/banner_2.png' %}" alt="Banner 2">
-            <img src="{% static 'core/img/banner_3.png' %}" alt="Banner 3">
+<section class="carrossel">
+    <div class="slides">
+        <div class="slide active" style="background-image: url('{% static 'core/img/banner_1.png' %}');">
+            <div class="slide-content">
+                <h2>Nova Coleção Brilho</h2>
+                <p>Cores vibrantes para iluminar seu estilo.</p>
+                <a href="#" class="btn-slide">Ver Coleção</a>
+            </div>
         </div>
-        <div class="indicadores">
-            <span class="ativo"></span>
-            <span></span>
-            <span></span>
+        <div class="slide" style="background-image: url('{% static 'core/img/banner_2.png' %}');">
+            <div class="slide-content">
+                <h2>Tons Clássicos</h2>
+                <p>A elegância que nunca sai de moda.</p>
+                <a href="#" class="btn-slide">Descobrir</a>
+            </div>
         </div>
-    </section>
+        <div class="slide" style="background-image: url('{% static 'core/img/banner_3.png' %}');">
+             <div class="slide-content">
+                <h2>Cuidados Essenciais</h2>
+                <p>Tudo para unhas mais fortes e saudáveis.</p>
+                <a href="#" class="btn-slide">Comprar Agora</a>
+            </div>
+        </div>
+    </div>
+    <div class="indicadores">
+        <span class="ativo"></span>
+        <span></span>
+        <span></span>
+    </div>
+</section>
 
-    <section class="marcas">
-        <h2>Principais Marcas</h2>
-        <div class="marca-container">
-            <div class="marca">
-                <img src="{% static 'core/img/risque_logo_1.png' %}" alt="Rísque">
-                <strong>Risqué</strong>
-                <p>A Risqué é uma das marcas mais reconhecidas  no Brasil quando se trata de esmaltes e produtos de cuidados para as unhas. Com uma longa trajetória no mercado de beleza, a Risqué se destaca por sua vasta gama de esmaltes em diferentes cores e acabamentos, sempre alinhada às tendências de moda.</p>
-                <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
-            </div>
-            <div class="marca">
-                <img src="{% static 'core/img/impala_logo_1.png' %}" alt="Impala">
-                <strong>Impala</strong>
-                <p>A Impala é uma marca extremamente reconhecida no mercado brasileiro de cosméticos, especialmente no segmento de esmaltes e cuidados para as unhas. Ela é conhecida por oferecer uma vasta gama de cores e acabamentos, atendendo a diferentes estilos e preferências. Além disso, a marca investe em inovação e tendências, lançando frequentemente coleções sazonais inspiradas na moda, cultura e necessidades do público-alvo.</p>
-                <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
-            </div>
-            <div class="marca">
-                <img src="{% static 'core/img/coloroma_logo_1.png' %}" alt="Colorama">
-                <strong>Colorama</strong>
-                <p>A Corolama é uma marca conhecida no mercado de esmaltes e cosméticos, com foco na qualidade e no design de seus produtos. Ela se destaca por oferecer uma variedade de cores vibrantes e acabamentos diferenciados, atendendo tanto a consumidores que buscam opções para o dia a dia quanto aqueles que desejam algo mais ousado e inovador. </p>
-                <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
-            </div>
+<section class="marcas">
+    <h2>Principais Marcas</h2>
+    <div class="marca-container">
+        <div class="marca">
+            <img src="{% static 'core/img/risque_logo_1.png' %}" alt="Rísque">
+            <strong>Risqué</strong>
+            <p>A Risqué é uma das marcas mais reconhecidas  no Brasil quando se trata de esmaltes e produtos de cuidados para as unhas. Com uma longa trajetória no mercado de beleza, a Risqué se destaca por sua vasta gama de esmaltes em diferentes cores e acabamentos, sempre alinhada às tendências de moda.</p>
+            <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
         </div>
-    </section>
+        <div class="marca">
+            <img src="{% static 'core/img/impala_logo_1.png' %}" alt="Impala">
+            <strong>Impala</strong>
+            <p>A Impala é uma marca extremamente reconhecida no mercado brasileiro de cosméticos, especialmente no segmento de esmaltes e cuidados para as unhas. Ela é conhecida por oferecer uma vasta gama de cores e acabamentos, atendendo a diferentes estilos e preferências. Além disso, a marca investe em inovação e tendências, lançando frequentemente coleções sazonais inspiradas na moda, cultura e necessidades do público-alvo.</p>
+            <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
+        </div>
+        <div class="marca">
+            <img src="{% static 'core/img/coloroma_logo_1.png' %}" alt="Colorama">
+            <strong>Colorama</strong>
+            <p>A Corolama é uma marca conhecida no mercado de esmaltes e cosméticos, com foco na qualidade e no design de seus produtos. Ela se destaca por oferecer uma variedade de cores vibrantes e acabamentos diferenciados, atendendo tanto a consumidores que buscam opções para o dia a dia quanto aqueles que desejam algo mais ousado e inovador. </p>
+            <a class="marca-icone" href="#"><i class="fi fi-ss-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</section>
 
-    <section class="produtos-destaque">
-        <h2>Produtos em Destaque</h2>
-        <div class="produto-container">
-            {% for produto in produtos %}
-            <div class="produto">
-                <a href="{% url 'produto_detalhe' produto.id %}">
-                    {% if produto.imagem %}
-                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                    {% else %}
-                        <img src="{% static 'core/img/placeholder.png' %}" alt="Imagem indisponível">
-                    {% endif %}
-                </a>
-                <p>{{ produto.nome }}</p>
-                <p>R$ {{ produto.preco }}</p>
-                
+<section class="produtos-destaque">
+    <h2>Produtos em Destaque</h2>
+    <div class="produto-container">
+        {% for produto in produtos %}
+        <div class="produto">
+            <a href="{% url 'toggle_favorito' produto.id %}" class="favorite-link" title="Favoritar">
+                {% if produto in user.favoritos.all %}
+                    <i class="fas fa-heart"></i> {% else %}
+                    <i class="far fa-heart"></i> {% endif %}
+            </a>
+    
+            <a href="{% url 'produto_detalhe' produto.id %}" class="produto-link-imagem">
+                {% if produto.imagem %}
+                    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                {% else %}
+                    <img src="{% static 'core/img/placeholder.png' %}" alt="Imagem indisponível">
+                {% endif %}
+            </a>
+            <p class="produto-nome">{{ produto.nome }}</p>
+            
+            <p class="produto-preco">R$ {{ produto.preco }}</p>
+            
+            <div class="produto-botoes">
                 <form action="{% url 'adicionar_ao_carrinho' produto.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit">Adicionar ao Carrinho</button>
+                    <button type="submit" class="btn-secundario">Adicionar ao Carrinho</button>
                 </form>
-
-                <form action="{% url 'comprar_agora' produto.id %}" method="post" style="margin-top: 5px;">
+                <form action="{% url 'comprar_agora' produto.id %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn-comprar-agora" style="background-color: var(--cor-destaque);">Comprar Agora</button>
+                    <button type="submit" class="btn-principal">Comprar Agora</button>
                 </form>
-
-                 <a href="{% url 'toggle_favorito' produto.id %}" title="Favoritar">❤️</a>
-            </div>
-            {% empty %}
-                <p>Nenhum produto cadastrado no momento.</p>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="highlight-promo">
-        <div class="container">
-            <h2>Promoção Relâmpago!</h2>
-            <p>Aproveite <strong>20% de desconto</strong> em todos os produtos. Oferta válida por tempo limitado!</p>
-            <div id="countdown">
-                <span id="hours">00</span>h :
-                <span id="minutes">00</span>m :
-                <span id="seconds">00</span>s
-            </div>
-            <a href="#" class="btn">Compre Agora</a>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="container">
-            <h2>O que nossas clientes dizem</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial">
-                    <p>"Adorei os esmaltes! A duração é incrível e as cores são lindas."</p>
-                    <span>- Ana Clara</span>
-                </div>
-                <div class="testimonial">
-                    <p>"Os kits de manicure são perfeitos para presentear. Recomendo!"</p>
-                    <span>- Juliana Santos</span>
-                </div>
-                <div class="testimonial">
-                    <p>"Atendimento excelente e entrega super rápida. Compro sempre!"</p>
-                    <span>- Carla Mendes</span>
-                </div>
             </div>
         </div>
-    </section>
+        {% empty %}
+            <p>Nenhum produto cadastrado no momento.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="highlight-promo">
+    <div class="container">
+        <h2>Promoção Relâmpago!</h2>
+        <p>Aproveite <strong>20% de desconto</strong> em todos os produtos. Oferta válida por tempo limitado!</p>
+        <div id="countdown">
+            <span id="hours">00</span>h :
+            <span id="minutes">00</span>m :
+            <span id="seconds">00</span>s
+        </div>
+        <a href="#" class="btn">Compre Agora</a>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="container">
+        <h2>O que nossas clientes dizem</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial">
+                <p>"Adorei os esmaltes! A duração é incrível e as cores são lindas."</p>
+                <span>- Ana Clara</span>
+            </div>
+            <div class="testimonial">
+                <p>"Os kits de manicure são perfeitos para presentear. Recomendo!"</p>
+                <span>- Juliana Santos</span>
+            </div>
+            <div class="testimonial">
+                <p>"Atendimento excelente e entrega super rápida. Compro sempre!"</p>
+                <span>- Carla Mendes</span>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

@@ -1,14 +1,10 @@
-// static/core/js/index.js
-
+// Garante que o script só rode depois que todo o HTML for carregado
 document.addEventListener('DOMContentLoaded', function() {
 
-    // (Seu código do menu hambúrguer já está aqui)
-    // ...
-
     // --- LÓGICA PARA O CARROSSEL DE BANNERS ---
-
-    // 1. Seleciona os elementos HTML
-    const slides = document.querySelectorAll('.slides img');
+    
+    // 1. Seleciona os elementos HTML do carrossel
+    const slides = document.querySelectorAll('.slides .slide');
     const indicadores = document.querySelectorAll('.indicadores span');
     let slideAtual = 0;
 
@@ -18,32 +14,33 @@ document.addEventListener('DOMContentLoaded', function() {
         // 2. Função para mostrar um slide específico
         function mostrarSlide(index) {
             // Esconde todos os slides e desativa todos os indicadores
-            slides.forEach((slide, i) => {
+            slides.forEach((slide) => {
                 slide.classList.remove('active');
-                if (indicadores[i]) indicadores[i].classList.remove('ativo');
             });
+            indicadores.forEach((indicador) => {
+                indicador.classList.remove('ativo');
+            });
+            
             // Mostra o slide e ativa o indicador correspondente
             slides[index].classList.add('active');
-            if (indicadores[index]) indicadores[index].classList.add('ativo');
+            indicadores[index].classList.add('ativo');
         }
 
         // 3. Função para avançar para o próximo slide
         function proximoSlide() {
-            // Calcula o índice do próximo slide, voltando ao primeiro se chegar no fim
             slideAtual = (slideAtual + 1) % slides.length;
             mostrarSlide(slideAtual);
         }
 
-        // 4. O temporizador: chama a função proximoSlide() a cada 5 segundos (5000 milissegundos)
+        // 4. O temporizador: chama a função proximoSlide() a cada 5 segundos
         setInterval(proximoSlide, 5000);
 
-        // (Bônus) Permite que o usuário clique nos indicadores para mudar de slide
+        // 5. Permite que o usuário clique nos indicadores
         indicadores.forEach((indicador, index) => {
             indicador.addEventListener('click', () => {
                 mostrarSlide(index);
-                slideAtual = index; // Atualiza o slide atual para o temporizador continuar do ponto certo
+                slideAtual = index;
             });
         });
     }
-
 });
