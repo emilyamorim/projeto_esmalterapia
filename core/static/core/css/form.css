@@ -1,0 +1,117 @@
+
+/* Container principal com fundo gradiente */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 1rem;
+    min-height: 70vh;
+    background: linear-gradient(to bottom, #F8BBD0 0%, #A8A8E9 100%);
+}
+
+/* Caixa branca flutuante do formulário */
+.form-box {
+    background-color: var(--cor-branco);
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    box-shadow: var(--sombra-suave);
+    width: 100%;
+    max-width: 500px; /* Um pouco mais largo para formulários */
+    text-align: center;
+}
+
+.form-box h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    color: var(--cor-texto);
+    margin-bottom: 2rem;
+}
+
+/* Agrupamento de label e input */
+.form-group {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    font-family: var(--fonte-principal);
+    color: var(--cor-texto);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cor-secundaria);
+    box-shadow: 0 0 0 3px rgba(168, 168, 233, 0.25);
+}
+
+/* Estilo para o texto de ajuda (Exemplo: MM/AA) */
+.form-group .helptext {
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 0.3rem;
+    margin-left: 0.2rem;
+}
+
+/* Botão de salvar modernizado */
+.btn-form {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, var(--cor-secundaria), var(--cor-destaque));
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-form:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Estilos para Páginas de Confirmação --- */
+
+.form-box .confirmation-text {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Botão de Perigo (Excluir) */
+.btn-danger {
+    background: #dc3545; /* Vermelho */
+}
+.btn-danger:hover {
+    background: #c82333; /* Vermelho mais escuro */
+}
+
+/* Botão Secundário (Cancelar) */
+.btn-secondary-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #777;
+    text-decoration: none;
+    font-weight: 500;
+}
+.btn-secondary-link:hover {
+    text-decoration: underline;
+}

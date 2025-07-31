@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('registro/', views.SignUpView.as_view(), name='registro'),
-    path('perfil/', views.perfil_view, name='perfil'),
+    path('perfil_unificado/', views.perfil_view, name='perfil'),
     path('perfil/deletar/', views.deletar_conta_view, name='deletar_conta'),
 
     # URLs do CRUD de Endereços (Multi-Tabela)
@@ -55,4 +55,8 @@ urlpatterns = [
         name='password_reset_complete'),
     
      path('checkout/', views.checkout_page, name='checkout_page'),
+
+
+     path('meus-cartoes/adicionar/', views.adicionar_cartao, name='adicionar_cartao'),
+     path('meus-cartoes/deletar/<int:cartao_id>/', views.deletar_cartao, name='deletar_cartao'),
 ]

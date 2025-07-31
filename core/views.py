@@ -18,8 +18,8 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 # Importação dos modelos e formulários da nossa aplicação 'core'
-from .models import Produto, Usuario, EnderecoUsuario, Pedido, ItemPedido
-from .forms import CustomUserCreationForm, CustomUserChangeForm, EnderecoForm
+from .models import Produto, Usuario, EnderecoUsuario, Pedido, ItemPedido, Cartao
+from .forms import CustomUserCreationForm, CustomUserChangeForm, EnderecoForm, CartaoForm
 
 
 # ==============================================================================
@@ -89,18 +89,32 @@ class SignUpView(generic.CreateView):
 
 @login_required
 def perfil_view(request):
-    """
-    Exibe e processa o formulário de edição dos dados pessoais do usuário.
-    """
+    # Lógica para salvar o formulário de dados pessoais (continua a mesma)
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        form_usuario = CustomUserChangeForm(request.POST, instance=request.user)
+        if form_usuario.is_valid():
+            form_usuario.save()
             messages.success(request, 'Seu perfil foi atualizado com sucesso!')
-            return redirect('perfil')
+            return redirect('perfil') # Redireciona para a própria página de perfil
     else:
-        form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'core/perfil.html', {'form': form})
+        form_usuario = CustomUserChangeForm(instance=request.user)
+
+    # ESTA PARTE É CRUCIAL:
+    # Busca os pedidos e endereços do usuário para enviar ao template
+    pedidos = Pedido.objects.filter(usuario=request.user).order_by('-data_pedido')
+    enderecos = EnderecoUsuario.objects.filter(usuario=request.user)
+    cartoes = Cartao.objects.filter(usuario=request.user)
+
+    # O 'context' deve conter TODOS os dados para TODAS as abas
+    context = {
+        'form_usuario': form_usuario,
+        'pedidos': pedidos,
+        'enderecos': enderecos,
+        'cartoes': cartoes,
+    }
+    
+    # Garanta que está renderizando o template unificado
+    return render(request, 'core/perfil_unificado.html', context)
 
 
 @login_required
@@ -140,7 +154,7 @@ def adicionar_endereco(request):
             return redirect('gerenciar_enderecos')
     else:
         form = EnderecoForm()
-    return render(request, 'core/form_endereco.html', {'form': form, 'titulo': 'Adicionar Novo Endereço'})
+    return render(request, 'core/form_generico.html', {'form': form, 'titulo': 'Adicionar Novo Endereço'})
 
 
 @login_required
@@ -155,7 +169,7 @@ def editar_endereco(request, endereco_id):
             return redirect('gerenciar_enderecos')
     else:
         form = EnderecoForm(instance=endereco)
-    return render(request, 'core/form_endereco.html', {'form': form, 'titulo': 'Editar Endereço'})
+    return render(request, 'core/form_generico.html', {'form': form, 'titulo': 'Editar Endereço'})
 
 
 @login_required
@@ -393,3 +407,27 @@ def meus_pedidos(request):
     pedidos = Pedido.objects.filter(usuario=request.user).order_by('-data_pedido')
     context = {'pedidos': pedidos}
     return render(request, 'core/meus_pedidos.html', context)
+
+@login_required
+def adicionar_cartao(request):
+    if request.method == 'POST':
+        form = CartaoForm(request.POST)
+        if form.is_valid():
+            cartao = form.save(commit=False)
+            cartao.usuario = request.user
+            cartao.save()
+            messages.success(request, 'Cartão adicionado com sucesso!')
+            return redirect('perfil') # Volta para a página de perfil
+    else:
+        form = CartaoForm()
+    return render(request, 'core/form_generico.html', {'form': form, 'titulo': 'Adicionar Novo Cartão'})
+
+@login_required
+def deletar_cartao(request, cartao_id):
+    cartao = get_object_or_404(Cartao, id=cartao_id, usuario=request.user)
+    if request.method == 'POST':
+        cartao.delete()
+        messages.success(request, 'Cartão excluído com sucesso!')
+        return redirect('perfil')
+    # Para a confirmação, podemos reutilizar um template genérico
+    return render(request, 'core/confirmar_delete.html', {'item': cartao, 'titulo': 'Excluir Cartão'})

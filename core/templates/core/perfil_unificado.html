@@ -1,0 +1,118 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'core/css/perfil.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-container">
+
+        <aside class="profile-sidebar">
+            <div class="profile-avatar"></div>
+            <h2>Olá, {{ user.first_name|default:user.username }}!</h2>
+            
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Sair</button>
+            </form>
+            
+            <a href="{% url 'deletar_conta' %}" class="btn btn-secondary" style="color: red; border-color: red;">Excluir Conta</a>
+        </aside>
+
+        <div class="profile-main-content">
+            <nav class="tabs">
+                <button class="tab-link active" data-tab="dados-pessoais">Dados Pessoais</button>
+                <button class="tab-link" data-tab="pedidos">Pedidos</button>
+                <button class="tab-link" data-tab="enderecos">Endereços</button>
+                <button class="tab-link" data-tab="cartoes">Cartões</button>
+            </nav>
+
+            <div id="dados-pessoais" class="tab-content active">
+                <h3>Dados Pessoais</h3>
+                <form method="post" action="{% url 'perfil' %}" class="profile-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form_usuario.first_name.id_for_label }}">Nome:</label>
+                        {{ form_usuario.first_name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form_usuario.last_name.id_for_label }}">Sobrenome:</label>
+                        {{ form_usuario.last_name }}
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="{{ form_usuario.email.id_for_label }}">E-mail:</label>
+                        {{ form_usuario.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form_usuario.cpf.id_for_label }}">CPF:</label>
+                        {{ form_usuario.cpf }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form_usuario.telefone.id_for_label }}">Telefone:</label>
+                        {{ form_usuario.telefone }}
+                    </div>
+                    <div class="form-actions full-width">
+                        <button type="submit" class="btn-submit">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="pedidos" class="tab-content">
+                <h3>Meus Pedidos</h3>
+                {% for pedido in pedidos %}
+                    <div class="pedido-item">
+                        <p><strong>Pedido #{{ pedido.id }}</strong> - {{ pedido.data_pedido|date:"d/m/Y" }}</p>
+                        <p>Status: {{ pedido.status }} | Total: R$ {{ pedido.valor_total|floatformat:2 }}</p>
+                    </div>
+                {% empty %}
+                    <p>Você ainda não fez nenhum pedido.</p>
+                {% endfor %}
+            </div>
+
+            <div id="enderecos" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Meus Endereços</h3>
+                    <a href="{% url 'adicionar_endereco' %}" class="btn-primary-link">Adicionar Novo Endereço</a>
+                </div>
+            
+                {% for endereco in enderecos %}
+                    <div class="endereco-item">
+                        <div>
+                            <p><strong>{{ endereco.logradouro }}, {{ endereco.numero }}</strong></p>
+                            <p>{{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.estado }}</p>
+                        </div>
+                        <div class="endereco-actions" style="display: flex; gap: 1rem;">
+                            <a href="{% url 'editar_endereco' endereco.id %}" class="link-action">Editar</a>
+                            <a href="{% url 'deletar_endereco' endereco.id %}" class="link-danger">Excluir</a>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Você não possui endereços cadastrados.</p>
+                {% endfor %}
+            </div>
+
+            <div id="cartoes" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Meus Cartões</h3>
+                    <a href="{% url 'adicionar_cartao' %}" class="btn-primary-link">Adicionar Novo Cartão</a>
+                </div>
+                {% for cartao in cartoes %}
+                    <div class="cartao-item" style="display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div>
+                            <p><strong>{{ cartao.nome_titular }}</strong></p>
+                            <p>Final {{ cartao.numero_cartao|slice:"-4:" }} | Validade: {{ cartao.data_validade }}</p>
+                        </div>
+                        <a href="{% url 'deletar_cartao' cartao.id %}" class="link-danger">Excluir</a>
+                    </div>
+                {% empty %}
+                    <p>Você não possui cartões cadastrados.</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'core/js/perfil.js' %}"></script>
+{% endblock %}

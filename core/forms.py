@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import EnderecoUsuario
-from .models import Usuario
+from .models import Usuario, EnderecoUsuario, Cartao
 
 class CustomUserCreationForm(UserCreationForm):
     # Definindo campos extras para ter mais controle
@@ -42,7 +41,36 @@ class EnderecoForm(forms.ModelForm):
         exclude = ('usuario',) # Exclui o campo de usuário do formulário
 
 class CustomUserChangeForm(UserChangeForm):
-    password = None # Remove o campo de senha da edição de perfil
+    password = None  # Remove o campo de senha da edição de perfil
+
     class Meta:
         model = Usuario
-        fields = ('first_name', 'last_name', 'telefone') # Campos que o usuário pode editar
+        # 1. Adicionamos 'email' e 'cpf' para que apareçam no formulário
+        fields = ('first_name', 'last_name', 'email', 'cpf', 'telefone')
+        
+        # 2. Traduzimos os rótulos para português
+        labels = {
+            'first_name': 'Nome',
+            'last_name': 'Sobrenome',
+            'email': 'E-mail',
+            'cpf': 'CPF',
+            'telefone': 'Telefone',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        # 3. Tornamos os campos de email e cpf "read-only" (apenas leitura) por segurança
+        # Isso faz com que eles apareçam preenchidos, mas desabilitados para edição.
+        self.fields['email'].widget.attrs['readonly'] = True
+        self.fields['cpf'].widget.attrs['readonly'] = True
+
+class CartaoForm(forms.ModelForm):
+    class Meta:
+        model = Cartao
+        exclude = ('usuario',)
+        labels = {
+            'numero_cartao': 'Número do Cartão',
+            'nome_titular': 'Nome do Titular',
+            'data_validade': 'Data de Validade (MM/AA)',
+        }

@@ -3,6 +3,7 @@
 # ==============================================================================
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 
 # ==============================================================================
 # DEFINIÇÃO DOS MODELOS
@@ -57,6 +58,9 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+    def get_absolute_url(self):
+        return reverse('perfil') # Retorna a URL da página de perfil
 
 
 class EnderecoUsuario(models.Model):
@@ -125,3 +129,18 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.quantidade}x {self.produto.nome} no Pedido {self.pedido.id}"
+    
+
+# core/models.py
+
+class Cartao(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='cartoes')
+    numero_cartao = models.CharField(max_length=19, help_text="Ex: 1234 5678 1234 5678")
+    nome_titular = models.CharField(max_length=255)
+    data_validade = models.CharField(max_length=5, help_text="MM/AA")
+    # Por segurança, NUNCA armazenamos o CVV no banco de dados.
+    # Este modelo é uma simplificação para fins de projeto.
+
+    def __str__(self):
+        # Mostra apenas os últimos 4 dígitos por segurança
+        return f"Cartão final {self.numero_cartao[-4:]}"

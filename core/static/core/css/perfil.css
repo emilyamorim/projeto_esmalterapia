@@ -1,0 +1,285 @@
+/* Container principal da página de perfil */
+.profile-container {
+    display: flex;
+    gap: 40px;
+    margin: 3rem 0;
+}
+
+/* Coluna da esquerda com a foto e botões */
+.profile-sidebar {
+    flex: 0 0 250px; /* Não cresce, não encolhe, começa com 250px */
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Cor de fundo para o placeholder */
+    margin: 0 auto 1rem auto;
+    /* Adicione uma imagem de placeholder se desejar */
+    /* background-image: url('../img/avatar-placeholder.png'); */
+    /* background-size: cover; */
+}
+
+.profile-sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.profile-sidebar .btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.75rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid var(--cor-destaque);
+    transition: all 0.3s ease;
+}
+
+.profile-sidebar .btn-primary {
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+}
+
+.profile-sidebar .btn-secondary {
+    background-color: var(--cor-branco);
+    color: var(--cor-destaque);
+}
+
+.profile-sidebar .btn:hover {
+    opacity: 0.8;
+}
+
+/* Área de conteúdo principal à direita */
+.profile-main-content {
+    flex-grow: 1;
+}
+
+/* static/core/css/perfil.css */
+
+/* --- Estilos Adicionais para o Conteúdo das Abas --- */
+
+/* Layout do formulário em grid */
+.profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas de tamanho igual */
+    gap: 1.5rem; /* Espaço entre os campos */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Classe para um campo ocupar as duas colunas */
+.form-group.full-width {
+    grid-column: 1 / -1; /* Ocupa do início ao fim */
+}
+
+.profile-form label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.profile-form input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: var(--fonte-principal);
+}
+
+.form-actions {
+    grid-column: 1 / -1; /* Ocupa a largura total */
+    display: flex;
+    justify-content: flex-end; /* Alinha o botão à direita */
+    margin-top: 1rem;
+}
+
+.btn-submit {
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Estilos para as listas de Pedidos e Endereços */
+.pedido-item, .endereco-item {
+    border: 1px solid #eee;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: var(--cor-branco);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pedido-item p, .endereco-item p {
+    margin: 0.3rem 0;
+    line-height: 1.5;
+}
+
+.endereco-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Para telas menores */
+}
+
+/* Navegação por abas */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: -2px; /* Alinha com a borda do conteúdo */
+}
+
+.tab-link {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--cor-texto);
+    border-bottom: 3px solid transparent;
+}
+
+.tab-link.active {
+    color: var(--cor-destaque);
+    border-bottom-color: var(--cor-destaque);
+}
+
+/* Conteúdo da aba */
+.tab-content {
+    display: none; /* A regra mais importante! */
+    background-color: #fdfdfd;
+    padding: 2rem;
+    border-radius: 0 8px 8px 8px;
+    border: 2px solid #eee;
+    border-top: none;
+}
+
+/* Quando um conteúdo tem a classe 'active', ele se torna visível */
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--cor-destaque);
+}
+
+/* Estilos para o formulário dentro da aba */
+.profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.profile-form p {
+    margin: 0;
+}
+
+.profile-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.profile-form input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.profile-form .btn-submit {
+    grid-column: 2 / 3; /* Faz o botão ocupar a segunda coluna */
+    justify-self: end; /* Alinha o botão à direita */
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Estilos para os itens de Pedido e Endereço */
+/* .pedido-item, .endereco-item {
+    border: 1px solid #eee;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+
+
+/* --- Estilos Adicionais para Botões e Links nas Abas --- */
+
+/* Estilo para o botão principal (Adicionar Novo) */
+.btn-primary-link {
+    background-color: var(--cor-destaque);
+    color: var(--cor-branco);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.btn-primary-link:hover {
+    opacity: 0.85;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilo para links de ação secundários (Editar) */
+.link-action {
+    color: var(--cor-secundaria);
+    font-weight: bold;
+    text-decoration: none;
+}
+.link-action:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para links de perigo (Excluir) */
+.link-danger {
+    color: #dc3545; /* Vermelho de perigo */
+    font-weight: bold;
+    text-decoration: none;
+}
+.link-danger:hover {
+    text-decoration: underline;
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+    }
+    .profile-sidebar {
+        flex-basis: auto;
+        width: 100%;
+    }
+    .profile-form {
+        grid-template-columns: 1fr;
+    }
+    .profile-form .btn-submit {
+        grid-column: auto;
+        justify-self: stretch;
+    }
+}

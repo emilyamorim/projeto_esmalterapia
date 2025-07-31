@@ -8,12 +8,12 @@
 {% block content %}
 <div class="form-container">
     <div class="form-box">
-        <h2>Confirmar Exclusão</h2>
+        <h2>{{ titulo|default:"Confirmar Exclusão" }}</h2>
 
         <p class="confirmation-text">
-            Você tem certeza que deseja excluir permanentemente o endereço abaixo?
+            Você tem certeza que deseja excluir permanentemente o item abaixo?
             <br>
-            <strong>"{{ endereco }}"</strong>
+            <strong>"{{ item }}"</strong>
         </p>
 
         <form method="post">
@@ -21,7 +21,7 @@
             
             <button type="submit" class="btn-form btn-danger">Sim, Excluir</button>
             
-            <a href="{% url 'gerenciar_enderecos' %}" class="btn-secondary-link">Cancelar</a>
+            <a href="{{ request.META.HTTP_REFERER|default_if_none:request.user.get_absolute_url }}" class="btn-secondary-link">Cancelar</a>
         </form>
     </div>
 </div>
