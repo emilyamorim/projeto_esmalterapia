@@ -1,5 +1,9 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% block content %}
+
+<link rel='stylesheet' href='{% static "core/css/favoritos.css" %}'>
+
 <div class="container-favoritos" style="max-width: 1200px; margin: 2rem auto; padding: 1rem;">
 
     <h1 style="text-align: center; margin-bottom: 2rem;">Meus Favoritos</h1>
@@ -8,7 +12,7 @@
         <div class="grid-produtos">
             {% for produto in favoritos %}
                 <div class="card-produto">
-                    <a href="{% url 'produto_detalhe' produto.id %}">
+                    <a class="img-produto" href="{% url 'produto_detalhe' produto.id %}">
                         {% if produto.imagem %}
                             <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
                         {% endif %}
@@ -21,7 +25,7 @@
                         {% csrf_token %}
                         <button type="submit">Adicionar ao Carrinho</button>
                     </form>
-                    <a href="{% url 'toggle_favorito' produto.id %}" style="color: red; margin-top: 0.5rem; display: inline-block;">Remover dos Favoritos</a>
+                    <a href="{% url 'toggle_favorito' produto.id %}" style="font-weight: 200px; color: red; margin-top: 0.5rem; display: inline-block; margin-left: 5em;">Remover dos Favoritos</a>
                 </div>
             {% endfor %}
         </div>

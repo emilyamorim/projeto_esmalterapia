@@ -64,7 +64,7 @@ header {
 }
 
 .nav-menu li a:hover {
-    background: #6f7b9e; 
+    background: #6f7b9e;
 }
 
 /* Barra de Pesquisa */
@@ -77,10 +77,10 @@ header {
 .search-bar input {
     padding: 10px;
     border: none;
-    border-radius: 20px; 
+    border-radius: 20px;
     width: 200px;
     font-size: 14px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -93,11 +93,11 @@ header {
     border-radius: 40%;
     color: white;
     margin: 15px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar button:hover {
-    background: #a82a6b; 
+    background: #a82a6b;
 }
 
 /* Ícones de coração, carrinho e perfil*/
@@ -115,7 +115,7 @@ header {
 }
 
 /* Estilizando menu suspenso */
-.dropdown-menu  {
+.dropdown-menu {
     display: none;
     position: absolute;
     min-width: 150px;
@@ -159,12 +159,12 @@ header {
 
 .dropdown:hover .dropdown-menu {
     display: block;
-    opacity: 1; 
+    opacity: 1;
     transform: translateY(0);
 }
 
 /* MENU EM MOBILE */
- .menu-hamburguer {
+.menu-hamburguer {
     display: none;
     flex-direction: column;
     cursor: pointer;
@@ -191,7 +191,7 @@ header {
     z-index: 1001;
 }
 
-.mobile-menu .menu-aberto{
+.mobile-menu .menu-aberto {
     right: 0;
 }
 
@@ -213,7 +213,7 @@ header {
 }
 
 .mobile-menu .dropdown-menu {
-    display: none; 
+    display: none;
     background: #A8A8E9;
     padding-left: 20px;
 }
@@ -279,11 +279,11 @@ header {
     }
 
     .dropdown-menu {
-        display: block !important; 
+        display: block !important;
         opacity: 1;
         transform: translateY(0);
-        position: static; 
-        background: none; 
+        position: static;
+        background: none;
         box-shadow: none;
     }
 
@@ -294,19 +294,19 @@ header {
 
     .menu-search-container {
         flex-direction: column;
-        align-items: flex-start; 
+        align-items: flex-start;
         width: 100%;
     }
 
     .nav-menu {
-      flex-direction: column;
-      margin-right: 0; 
+        flex-direction: column;
+        margin-right: 0;
     }
 
     .search-bar {
-        width: 100%; 
-        margin-top: 5px; 
-        justify-content: center; 
+        width: 100%;
+        margin-top: 5px;
+        justify-content: center;
     }
 
     .search-bar button {
@@ -380,25 +380,29 @@ h1 {
 
 @media (max-width: 1200px) {
     .container-produtos {
-        grid-template-columns: repeat(4, 1fr); /* 4 colunas em telas menores */
+        grid-template-columns: repeat(4, 1fr);
+        /* 4 colunas em telas menores */
     }
 }
 
 @media (max-width: 900px) {
     .container-produtos {
-        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas médias */
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 colunas em telas médias */
     }
 }
 
 @media (max-width: 600px) {
     .container-produtos {
-        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas pequenas */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 colunas em telas pequenas */
     }
 }
 
 @media (max-width: 400px) {
     .container-produtos {
-        grid-template-columns: repeat(1, 1fr); /* 1 coluna em telas muito pequenas */
+        grid-template-columns: repeat(1, 1fr);
+        /* 1 coluna em telas muito pequenas */
     }
 }
 
@@ -553,4 +557,65 @@ h1 {
     .social-icons {
         justify-content: center;
     }
+}
+
+.grid-produtos {
+    
+    display: flex;
+    gap: 30px;
+    flex-direction: row;
+    justify-content: start;
+    align-items: stretch;
+    align-content: center;
+}
+
+.card-produto {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.99);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 1em;
+}
+
+.card-produto>p {
+    color: #D15180;
+}
+
+.card-produto>span {
+    color: #D15180;
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.img-produto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    text-decoration-line: none;
+}
+
+.img-produto img {
+    width: 50%;
+    height: 50%;
+    margin: 1em;
+}
+
+button {
+    width: 80%;
+    border: none;
+    padding: 0.8rem;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background: #d63384;
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    margin-left: 1.5em;
+    
 }

@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+<link rel='stylesheet' href='{% static "core/css/carrinho.css" %}'>
 <div class="container-carrinho" style="max-width: 960px; margin: 2rem auto; padding: 1rem;">
     <h1 style="text-align: center; margin-bottom: 2rem;">Seu Carrinho</h1>
 
@@ -15,7 +16,7 @@
                         <h3>{{ item.produto.nome }}</h3>
                         <p>Vendido por: {{ item.produto.marca }}</p>
         
-                        <div class="controles-quantidade" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                        <div class="button-add-remove" style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
                             <form action="{% url 'atualizar_carrinho' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
@@ -25,7 +26,7 @@
         
                             <span>{{ item.quantidade }}</span>
         
-                            <form action="{% url 'atualizar_carrinho' %}" method="post" style="display: inline;">
+                            <form  action="{% url 'atualizar_carrinho' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="produto_id" value="{{ item.produto.id }}">
                                 <input type="hidden" name="action" value="increase">
@@ -35,7 +36,7 @@
                         </div>
         
                     <div class="item-preco" style="text-align: right;">
-                        <p style="font-size: 1.2rem; font-weight: bold; margin: 0;">R$ {{ item.total_item|floatformat:2 }}</p>
+                        <p style="font-size: 1.2rem; font-weight: bold; margin: 0;">R${{ item.total_item|floatformat:2 }}</p>
         
                         <form action="{% url 'remover_do_carrinho' item.produto.id %}" method="post" style="margin-top: 0.5rem;">
                             {% csrf_token %}
@@ -48,7 +49,7 @@
             {% endfor %}
         </div>
 
-        <div class="resumo-pedido" style="flex: 1; background-color: #f8f8f8; padding: 1.5rem; border-radius: 8px;">
+        <div class="resumo-pedido" style="flex: 1;  padding: 1.5rem">
             <h2>Produtos</h2>
             <div style="display: flex; justify-content: space-between; margin-top: 1rem;">
                 <span>Subtotal</span>
@@ -59,7 +60,7 @@
                 <span>GRÁTIS</span>
             </div>
             <hr style="margin: 1rem 0;">
-            <a href="{% url 'checkout_page' %}" style="text-decoration: none; display: block; width: 100%; padding: 1rem; background-color: #5a3e5a; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; text-align: center;">
+            <a href="{% url 'checkout_page' %}" style="text-decoration: none; display: block; width: 100%; padding: 1rem; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; text-align: center;">
                 Fechar Pedido
             </a>
         </div>
